@@ -1,0 +1,21 @@
+662607465
+mpeter39@uic.edu
+
+1.Yes the answers shown were the ones expected from the program.
+
+2.Everything worked as expected.
+
+3.The -m32 flag caused the gcc to exit with an error status and after trying the reccomendations we were unable to generate any file.
+
+4.The command ./a.out refers to the program in the local directory while a.out by itself refers to a bash program.
+
+5.The first one is making an object hello.out with assuming the 32bit processing  on level 2 optimization. The second is the same but the output file is named a.out and will output the assimbly code as well.
+
+6.Only for which the program was gcc'ed kn can it be executed without re gcc'ing the 
+source code
+
+7.The first is for piping the output of one command into the input of another,the 
+second is for forcing the output file, the third is for thenreferencing if the jnout 
+file,the fourth is for setup of the moving a process forward or backward in viewing, 
+the last two are for moving the process that has been set by & to the forground ,fg, 
+and background,bg.

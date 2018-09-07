@@ -1,0 +1,33 @@
+Problem 1
+ 1. Retrieve j and put into %edx
+ 2. Compute  (j * 8) + j, 9j, and place into %eax
+ 3. Compute (9j * 4) + j, 37j, and place into %eax
+ 4. Compute (111 * i), 111i, and place into %edx
+ 5. Add %eax + %edx, 111i + 37j, and place into %eax
+ 6. Add k + %eax, 111i + 37j + k, and place into %eax
+ 7. Compute ((111i + 37j + k) * 4) + A, 444i + 148j + 4k +A, and place in %edx
+ 8. Move dest into %eax
+ 9. Make a connection of, (111i + 37j + k) * 4) + A, into dest
+10. Return size of A, 888
+
+The end equation seen above, ((111i + 37j + k) * 4) + A, is disassembled as A + 4 * (111i + 37j + k) because we want the values stored in R, S, and T we can disregard the A + part because that just refers to the starting point of the array. By observation and comparison to the equation on page 236 in the text that the value for S is multiplied to the j value and the R value is multiplied to the i value. When compared to the size of the array once shrunk by the length of int, 888 / 4 = 222, by observing that none of the constants can be >= 222 in total 111 can only be multiplied by 1 to hold that true, then we have 111 left so to keep S * 37 < 111 S can only equal 2 and with the reminder of 37 that becomes the value of T.
+
+Final Answers
+R = 1
+S = 2
+T = 37
+
+Problem 2
+0x00000000  0x00000001  0x00000000  0xf7fce000
+0xffffdb2e  0xf7fce000  0xffffdb08  0x0804843e
+
+0x00000002  0x00000000  0xffffdbb4  0xf7ffd938
+0x00000000  0xf7fce000  0xffffdb28  0x0804843e
+
+0x00000003  0x00000000  0xffffffff  0x00000001
+0xf7e2db98  0xf7fce000  0xffffdb48  0x0804843e
+
+0x00000004  0x08048320  0x00000000  0x080482bd
+0xf7fce3e4  0xf7fce000  0xffffdb68  0x08048473
+
+The calls to 0x0804843e are the returns to the previous calls to the fib function. The first values for each set of 8 address are the return value to the previous function call. All the way back to the return to main, 0x08048473. 0xf7fce000 is the call to printf to display the new value, which is stored in 0xffffdb08 - 0xffffdb68.

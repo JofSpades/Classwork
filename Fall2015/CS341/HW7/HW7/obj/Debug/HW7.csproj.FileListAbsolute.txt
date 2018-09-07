@@ -1,0 +1,9 @@
+\\psf\Home\Documents\Classwork\FA15\CS341\HW7\HW7\HW7\bin\Debug\HW7.exe.config
+\\psf\Home\Documents\Classwork\FA15\CS341\HW7\HW7\HW7\obj\Debug\HW7.csprojResolveAssemblyReference.cache
+\\psf\Home\Documents\Classwork\FA15\CS341\HW7\HW7\HW7\obj\Debug\HW7.Properties.Resources.resources
+\\psf\Home\Documents\Classwork\FA15\CS341\HW7\HW7\HW7\obj\Debug\HW7.csproj.GenerateResource.Cache
+\\psf\Home\Documents\Classwork\FA15\CS341\HW7\HW7\HW7\bin\Debug\HW7.exe
+\\psf\Home\Documents\Classwork\FA15\CS341\HW7\HW7\HW7\bin\Debug\HW7.pdb
+\\psf\Home\Documents\Classwork\FA15\CS341\HW7\HW7\HW7\obj\Debug\HW7.exe
+\\psf\Home\Documents\Classwork\FA15\CS341\HW7\HW7\HW7\obj\Debug\HW7.pdb
+\\psf\Home\Documents\Classwork\FA15\CS341\HW7\HW7\HW7\obj\Debug\HW7.AOSP.resources

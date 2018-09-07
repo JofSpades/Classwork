@@ -1,0 +1,125 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}          % gives custom-labeled enumerations
+\usepackage{graphics}
+\usepackage{mathabx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows,automata,positioning}
+% Draw states as black circles filled with gray.
+\tikzstyle{every state}=[fill=black!10]
+% Set the size of the double circle around accept states.
+\tikzstyle{accepting}=[double=black!10,double distance=2pt,outer sep=1pt+\pgflinewidth]
+% No text on start arrows.
+\tikzstyle{every initial by arrow}=[initial text=]
+% Set bend angle, set the label to appear next to the curve, and set
+% the arrow style.
+\tikzstyle{every edge}=[draw,bend angle=15,auto,>=stealth']
+
+\setlist[enumerate]{label=\textbf{\alph{*}.},listparindent=1em}
+
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\topskip}{0in}
+
+\newcommand{\Z}{\mathbb{Z}}     % Rich man's black board's font.
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+
+% taken from hs's mary.tex, and tracing back to knuth.
+\def\dash---{\kern.16667em---\penalty\exhyphenpenalty\hskip.16667em\relax}
+
+\newcommand{\st}{\;\;\text{s.t.}\;\;}
+\newcommand{\rev}{^{\scriptscriptstyle\mathcal{R}}}
+\newcommand*\comp{^{\mathcal C}}
+% Write alphabet symbols in typewriter font as per Sipser.
+\newcommand\s[1]{\ensuremath{\mathtt{#1}}}
+\newcommand*\langop{\textsc}
+
+\let\oldsetminus\setminus
+\renewcommand*\setminus{\mathbin\oldsetminus}
+
+% Set the exercises number and your name.
+\title{Problem Set \#3}
+\author{Maxwell Petersen}
+
+% No need to change these 4 lines.
+\makeatletter
+\newcommand\exercise[1]{\par\vspace{4ex}\normalfont\normalsize\noindent
+\textbf{\large Problem #1}\par\nobreak\@afterindentfalse\@afterheading}
+\makeatother
+
+
+\begin{document}
+\maketitle
+
+\exercise{1}
+Define a TM D of the following form\\
+D = "
+\begin{enumerate}
+\item Move all symbols of the input tape to the left one spot.
+\item In the new free first spot place a unique symbol.
+\item Place transitions to prevent the TM from moving left when the unique symbol it under the tape head.
+\end{enumerate}
+"
+
+\exercise{2}
+Define a TM D and E in the following form:\\
+D = "
+\begin{enumerate}
+\item Generate a DFA M' such that M' accepts $w^{\rev}$ for all $w \in$ M.
+\end{enumerate}
+"\newline
+and E = "
+\begin{enumerate}
+\item Run EQ$_{DFA}\langle$M,M'$\rangle$.
+\item E accepts if EQ$_{DFA}$ accepts otherwise reject.
+\end{enumerate}
+"\\
+E halts on all input either win an accept or reject thus E is a decider for L.
+\cleardoublepage
+\exercise{3}
+For a language L$^C$to be decidable there is some TM C that can act as a decider upon it. L will also have a TM D  in a form what when D receives some string $w$ that it will run $w$ on C and preform  the opposite state that C returns with, i.e. when C accepts D rejects and vice versa. For all input $w$ there is a direct relationship for all decidable languages and their compliments. To further illustrate this point if L$^C$ is undecidable there is no way to determine with consistency that L is also decidable with the aforementioned relation of L and L$^C$.
+
+\exercise{4}
+Assume there is some decider R for HW. Let I be the code for a Python program that infinitely counts. Let D be a TM that decides A$_{TM}$ D is defined as follows:\\
+D = "
+\begin{enumerate}
+\item If input M is seen as a python program proceed to step 2, else skip to step 4.
+\item Run R$\langle$M,$w\rangle$ for some input string $w$.
+\item 	If R accepts D accepts, otherwise reject
+\item Run A$_{TM}\langle$M,$w\rangle$
+\item 	If A$_{TM}$ accepts then D accepts otherwise reject.
+\end{enumerate}
+"
+The decider D defined as so when run D$\langle$I,$w\rangle$ for any string $w$ D will stall. Proving contradiction on R meaning HW is not decidable.
+
+\exercise{5}
+M =$\{\langle$I,$w\rangle\mid$ I moves head left one left most cell on input$w\}$\\
+Let A be a TM which is defined as follows:\\
+A = "
+\begin{enumerate}
+\item Check that the last input symbol is the largest symbol in $\Sigma$ based on converting the symbols in to their ASCII hex code.
+\item Then check that the first symbol on the tape is the lowest symbol in $\Sigma$.
+\end{enumerate}
+"
+Run M$\langle$D$\langle$A$\rangle$,$w\rangle\rangle$ with D being defined in Problem 1. Because the first symbol is not in $\Sigma$ nor can be accessed because there are rules in place to force the read head to the right upon reading the unique symbol. Those rules will conflict creating an infinite loop preventing M from being a decider.
+
+\exercise{6}
+As proven in the text if a TM is recognizable and its compliment is also recognizable then it is a decider otherwise the compliment may not be recognizable by a TM.
+
+\exercise{7}
+L is not decidable, define L as follows\\
+L = "
+\begin{enumerate}
+\item Run M on input$w$.
+\item For each state transition check for state q
+\item 	If the current state is q then reject.
+\item When the input string finishes regardless of M accepting or rejecting the string if L hasn't rejected by this point then accept.
+\end{enumerate}
+"
+If the input TM is not a decidable TM then the input M may loop making L loop making L non decidable.
+
+\end{document}

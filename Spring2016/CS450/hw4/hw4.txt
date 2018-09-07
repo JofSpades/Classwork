@@ -1,0 +1,13 @@
+Q1: 951957939
+Q2: AAAA;CNAME
+Q3: funny-pictures-kitten-says-hello.jpg;bb2c48239e785e892915e72907eb97af 
+Q4: 192.168.0.2;192.168.0.1
+Q5: user
+Q6: Sat Nov 27 20:11:43
+Q7: ls;ls -a;exit
+Q8: edmond
+Q9: cs.uic.edu
+Q10: ls;echo Networking is supper supper interested!;ping cs.uic.edu;echo Bye!;exit
+Q11: 131.193.34.202;100;ec26434293bd9928f187bf00cb72b2af
+Q12: awesome.pdf;7186ba91deeb96655158bd25e842a22f
+Q13:

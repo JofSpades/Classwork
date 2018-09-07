@@ -1,0 +1,14 @@
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\bin\Debug\PPMImageEditor.exe.config
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\bin\Debug\PPMImageEditor.exe
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\bin\Debug\PPMImageEditor.pdb
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\bin\Debug\FSharp.Core.dll
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\bin\Debug\PPMImageLibrary.dll
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\bin\Debug\PPMImageLibrary.pdb
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\bin\Debug\PPMImageLibrary.xml
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\bin\Debug\FSharp.Core.xml
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\obj\Debug\PPMImageEditor.csprojResolveAssemblyReference.cache
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\obj\Debug\PPMImageEditor.Form1.resources
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\obj\Debug\PPMImageEditor.Properties.Resources.resources
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\obj\Debug\PPMImageEditor.csproj.GenerateResource.Cache
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\obj\Debug\PPMImageEditor.exe
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageEditor\obj\Debug\PPMImageEditor.pdb

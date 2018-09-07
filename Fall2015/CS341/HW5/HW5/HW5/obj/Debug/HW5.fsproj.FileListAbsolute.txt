@@ -1,0 +1,8 @@
+\\psf\Home\Documents\Classwork\FA15\CS341\HW5\HW5\HW5\bin\Debug\HW5.exe.config
+\\psf\Home\Documents\Classwork\FA15\CS341\HW5\HW5\HW5\bin\Debug\HW5.XML
+\\psf\Home\Documents\Classwork\FA15\CS341\HW5\HW5\HW5\bin\Debug\HW5.exe
+\\psf\Home\Documents\Classwork\FA15\CS341\HW5\HW5\HW5\bin\Debug\HW5.pdb
+\\psf\Home\Documents\Classwork\FA15\CS341\HW5\HW5\HW5\bin\Debug\FSharp.Core.dll
+\\psf\Home\Documents\Classwork\FA15\CS341\HW5\HW5\HW5\bin\Debug\FSharp.Core.xml
+\\psf\Home\Documents\Classwork\FA15\CS341\HW5\HW5\HW5\obj\Debug\HW5.exe
+\\psf\Home\Documents\Classwork\FA15\CS341\HW5\HW5\HW5\obj\Debug\HW5.pdb

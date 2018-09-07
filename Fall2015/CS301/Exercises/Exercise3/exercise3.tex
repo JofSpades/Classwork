@@ -1,0 +1,180 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{xytree}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+
+% Match the list format in Sipser.
+\setlist[enumerate,1]{label=\textbf{\alph*.}}
+
+\newcommand{\rev}{^{\scriptscriptstyle\mathcal{R}}}
+
+% Set the exercises number and your name.
+\title{Exercises \#3}
+\author{Maxwell Petersen}
+
+
+% No need to change these 4 lines.
+\makeatletter
+\newcommand\exercise[1]{\par\vspace{4ex}\normalfont\normalsize\noindent
+\textbf{\large Exercise #1}\par\nobreak\@afterindentfalse\@afterheading}
+\makeatother
+
+\begin{document}
+\maketitle
+
+\exercise{2.1}
+\begin{enumerate}
+\item
+\xytree{
+	& \xynode[0]{E} \\
+	& \xynode[0]{T} \\
+	& \xynode[0]{F} \\
+	& \xynode{a}
+}
+\item
+\xytree{
+	& \xynode[-1,1]{E}
+	\xyconnect{4,0} \\
+	\xynode[0]{E} & & \xynode[0]{T} \\
+	\xynode[0]{T} & & \xynode{F} \xyconnect{2,0} \\
+	\xynode[0]{F} \\
+	\xynode{a} & \xynode{+} & \xynode{a} 
+}
+\item
+\xytree{
+	& & & \xynode[-2, 1]{E} \xyconnect{5,0} \\
+	& \xynode[-1,1]{E} \xyconnect{4,0} & & & \xynode[0]{T} \\
+	\xynode[0]{E} & & \xynode[0]{T} & & \xynode{F} \xyconnect{3,0} \\
+	\xynode[0]{T} & & \xynode{F} \xyconnect{2,0} \\
+	\xynode[0]{F} \\
+	\xynode{a} & \xynode{+} & \xynode{a} & \xynode{+} & \xynode{a} \\
+}
+\item
+\xytree{
+	& & \xynode[0]{E} \\
+	& & \xynode[0]{T} \\
+	& & \xynode[0]{F} \xyconnect[-][_1.5pc]{7,-2} \xyconnect[-][^1.5pc]{7,2} \\
+	& & \xynode[0]{E} \\
+	& & \xynode[0]{T} \\
+	& & \xynode[0]{F} \xyconnect[-][_.75pc]{4,-1} \xyconnect[-][^.75pc]{4,1} \\
+	& & \xynode[0]{E} \\
+	& & \xynode[0]{T} \\
+	& & \xynode[0]{F} \\
+	\xynode{(} & \xynode{(} & \xynode{a} & \xynode{)} & \xynode{)}  \\
+}
+\end{enumerate}
+
+\exercise{2.3}
+\begin{multicols}{2}
+	\begin{enumerate}
+	\item What are the variables of $G$? \\ $\{R,S,T,X\}$
+	\item What are the terminals of $G$? \\ $\{\textsf{a},\textsf{b}\}$
+	\item Which is the start variable of $G$? \\ $R$
+	\item Give three strings in $L(G)$. \\  $\textsf{aaba}, \textsf{ab}, \textsf{bbaba}$
+	\item Give three strings not in $L(G)$. \\ $\textsf{aaa}, \textsf{bbb}, \epsilon$
+	\item True or False: $T \Rightarrow \textsf{aba}$. \\ False
+	\item True or False: $T \stackrel*\Rightarrow \textsf{aba}$. \\ True
+	\item True or False: $T \Rightarrow T$ \\ False
+	\item True or False: $T \stackrel*\Rightarrow T$ \\ True
+	\item True or False: $X X X \stackrel*\Rightarrow \textsf{aba}$ \\ True
+	\item True or False: $X \stackrel*\Rightarrow \textsf{aba}$ \\ False
+	\item True or False: $T \stackrel*\Rightarrow X X$ \\ True
+	\item True or False: $T \stackrel*\Rightarrow X X X$ \\ True
+	\item True or False: $S \stackrel*\Rightarrow \epsilon$ \\ False
+	\item Give a description in English of $L(G)$. \\ G is the set of every string that is not a palindrome
+	\end{enumerate}
+\end{multicols}
+
+\exercise{2.4}
+\begin{enumerate}
+	\item $\{w \mid w$ contains at least three $\textsf{1}$s$\}$ \\
+	$S \rightarrow T\textsf{1}T\textsf{1}T\textsf{1}T \\ T \rightarrow T\textsf{1} \mid T\textsf{0} \mid \textsf{1}T \mid \textsf{0}T \mid \epsilon$
+	\item $\{w \mid w$ starts with and ends with the same symbol$\}$ \\
+	$S \rightarrow \textsf{1}T\textsf{1} \mid \textsf{0}T\textsf{0} \\ T \rightarrow T\textsf{1} \mid T\textsf{0} \mid \textsf{1}T \mid \textsf{0}T \mid \epsilon$
+	\item $\{w \mid$ the length of $w$ is odd$\}$ \\
+	$S \rightarrow TST \mid T \\ T \rightarrow \textsf{1} \mid \textsf{0}$
+	\item $\{w \mid $ the length of $w$ is odd adn the middle value is a $\textsf{0}\}$ \\
+	$S \rightarrow \textsf{0} \mid \textsf{0}S\textsf{0} \mid \textsf{0}S\textsf{1} \mid \textsf{1}S\textsf{0} \mid\textsf{1}S\textsf{1}$
+	\item $\{w \mid w = w^{\rev}$, that is, $w$ is a palindrome$\}$\\
+	$S \rightarrow \textsf{a}S\textsf{a} \mid \textsf{b}S\textsf{b} \mid \textsf{a} \mid \textsf{b} \mid \epsilon$
+	\item The empty set \\
+	$S \rightarrow \emptyset$
+\end{enumerate}
+
+\exercise{2.6}
+\begin{enumerate}
+	\item The set of string over the alphabet $\{\textsf{a}, \textsf{b}\}$ where there are more $\textsf{a}$'s than $\textsf{b}$'s.\\
+	$S \rightarrow T\textsf{a}T \\ T \rightarrow TT \mid \textsf{a}T\textsf{b} \mid \textsf{b}T\textsf{a} \mid \textsf{a} \mid \epsilon$
+	\item The compliment of the language $\{a^nb^n \mid n \geq 0\}$\\
+	$S \rightarrow T \mid V \mid X\textsf{b}X\textsf{a}X \\
+	T \rightarrow U\textsf{a}U \\
+	U \rightarrow UU \mid \textsf{a}U\textsf{b} \mid \textsf{b}U\textsf{a} \mid \textsf{a} \mid \epsilon \\
+	V \rightarrow W\textsf{b}W \\
+	W \rightarrow WW \mid \textsf{a}W\textsf{b} \mid \textsf{b}W\textsf{a} \mid \textsf{b} \mid \epsilon \\
+	X \rightarrow X\textsf{a} \mid X\textsf{b} \mid \epsilon$
+	\item$\{w\textsf{\#}x \mid w\rev$ is a substring of $x$ for $w,x \in \{\textsf{1}, \textsf{0}\}^{*}\}$\\
+	$S \rightarrow TX \\ T \rightarrow \textsf{0}T\textsf{0} \mid \textsf{1}T\textsf{1} \mid \textsf{\#}X \\ X \rightarrow \textsf{0}X \mid \textsf{1}X \mid \epsilon$
+	\item $\{x_1\textsf{\#}x_2\textsf{\#}\cdots x_k \mid k \geq 1,$ each $x_i \in \{\textsf{a},\textsf{b}\}^{*},$ and for some $i$ and $j$, $x_i=x_j\rev \}$ \\
+	$S \rightarrow \textsf{a}T\textsf{a}U \mid \textsf{b}T\textsf{b}U \mid \textsf{a} \mid \textsf{b} \\
+	T \rightarrow \epsilon \mid $\#$S \mid S \mid $\#$S$\#$ \\
+	U \rightarrow \epsilon \mid $\#$S$
+\end{enumerate}
+
+\exercise{2.13}
+Let $G = (V, \Sigma, R, S)$ be the following rammer. $V = \{ S, T, U\}; \Sigma = \{\textsf{0}, \textsf{\#}\}$; and $R$ is the set of rules: \\ \\
+$S \rightarrow TT \mid U \\
+T \rightarrow \textsf{0}T \mid T\textsf{0} \mid \textsf{\#} \\
+U \rightarrow \textsf{0}U\textsf{00} \mid \textsf{\#}$\\
+\begin{enumerate}
+	\item Describe $L(G)$ in English.\\
+	$L(G)$ is the set of all strings where there is some string of $\textsf{0}$'s a least one \# then some more $\textsf{0}$'s then repeated with \# in between each repeat guaranteeing that the string is going to be either two \#'s or the first and last character is going to be a $\textsf{0}$.
+	\item Prove that $L(G)$ is not regular.\\
+	Through exhaustive search a regular expression cannot be made for these rules. Without a regular expression the grammar produces a non regular language.
+\end{enumerate}
+
+\cleardoublepage
+
+\exercise{2.14}
+Initial: \\
+$A \rightarrow BAB \mid B \mid \epsilon \\ 
+B \rightarrow \textsf{00} \mid \epsilon$\\
+Adding $A_0 \rightarrow A$:\\
+$A_0 \rightarrow A \\
+A \rightarrow BAB \mid B \mid \epsilon \\
+B \rightarrow \textsf{00} \mid \epsilon \\$
+Converting rules to those that have at most length two: \\
+$A_0 \rightarrow A \\
+A \rightarrow BC \mid B \mid \epsilon \\
+B \rightarrow \textsf{00} \mid \epsilon \\
+C \rightarrow AB \\$
+Removing $B \rightarrow \epsilon$:\\
+$A_0 \rightarrow A \\ 
+A \rightarrow BC \mid B \mid C \mid \epsilon \\
+B \rightarrow \textsf{00} \\
+C \rightarrow AB \mid A \\$
+Removing $A \rightarrow \epsilon$:\\
+$A_0 \rightarrow A \mid \epsilon \\
+A \rightarrow BC \mid B \mid C \\
+B \rightarrow \textsf{00} \\
+C \rightarrow AB \mid A \mid B \mid \epsilon\\$
+Removing $C \rightarrow \epsilon$\\
+$A_0 \rightarrow A \mid \epsilon \\
+A \rightarrow BC \mid B \mid C \\
+B \rightarrow \textsf{00} \\
+C \rightarrow AB \mid A \mid B\\$
+Removing unit variables:\\
+$A_0 \rightarrow BC \mid \textsf{00} \mid AB \mid BC \mid \textsf{00} \mid \epsilon \\
+A \rightarrow BC \mid \textsf{00} \mid AB \mid BC \mid \textsf{00} \\
+B \rightarrow \textsf{00} \\
+C \rightarrow AB \mid BC \mid \textsf{00} \mid C \\$
+No terminals paired with variables so the $\textsf{CFG}$ is in $\textsf{CNF}$
+
+\exercise{2.17}
+Let there be some regular expression $R$. For every union in $R$ create a new variable $S$ with rule $S \rightarrow \{$expression$\} \mid \{$expression$\}$, i.e $\textsf{a} \cup \textsf{b} \Rightarrow S \rightarrow \textsf{a} \mid \textsf{b}$. For every concatenation in $R$ create a new variable $S$ with rule $S \rightarrow \{$expression$\}\{$expression$\}$, i.e $\textsf{a} \circ \textsf{b} \Rightarrow S \rightarrow \textsf{a}\textsf{b}$. For every Kleene star in $R$ create a new variable $S$ with rule $S \rightarrow \{$expression$\}S$, i.e $\textsf{a}^{\ast} \Rightarrow S \rightarrow \textsf{a}S$.
+
+\end{document}

@@ -1,0 +1,6 @@
+www.google.com
+Request:
+File:.(null)
+www.skypeassets.com
+Request:/i/images/logos/skype_logo.png
+File:./skype_logo.png

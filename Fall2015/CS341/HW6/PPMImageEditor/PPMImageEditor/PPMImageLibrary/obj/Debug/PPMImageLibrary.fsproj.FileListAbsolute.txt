@@ -1,0 +1,7 @@
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageLibrary\bin\Debug\PPMImageLibrary.XML
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageLibrary\bin\Debug\PPMImageLibrary.dll
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageLibrary\bin\Debug\PPMImageLibrary.pdb
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageLibrary\bin\Debug\FSharp.Core.dll
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageLibrary\bin\Debug\FSharp.Core.xml
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageLibrary\obj\Debug\PPMImageLibrary.dll
+\\psf\Home\Documents\Classwork\FA15\CS341\HW6\hw6-files\PPMImageEditor\PPMImageEditor\PPMImageLibrary\obj\Debug\PPMImageLibrary.pdb

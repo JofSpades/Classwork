@@ -1,0 +1,48 @@
+
+
+NAME:  
+Make sure that you can honestly confirm each of the items below.  When
+you can, simply type "YES" after "CONFIRMED?" for each item
+
+
+
+
+I have registered for the CS141 piazza page.
+
+    CONFIRM
+
+I am able to remotely login to the CS department servers -- 
+    bert.cs.uic.edu using my personal computer.  
+    This may be through putty or similar tool on a Windows machine 
+    or by running ssh from the shell on a mac.
+
+    CONFIRM
+
+I am able to transfer files between my personal machine and the 
+    department machines using a tool such as WinSCP or sftp (mac/unix shell).
+
+    CONFIRM
+
+I have changed my CS account password so that it is no longer my UIN.  
+   To do this, you do the following:
+
+      Connect to bert
+      Run the yppasswd program from the shell and follow the directions
+
+    CONFIRM
+
+I can do all of the following basic UNIX operations from the shell:
+
+      Navigate the directory system
+      Create directories
+      Move and copy files
+      Edit and save text files
+      Compile and run a C program
+
+    CONFIRM
+
+I have successfully used the Proquest/Safari system to access and read 
+    the available texts for the class.
+
+    CONFIRM
+

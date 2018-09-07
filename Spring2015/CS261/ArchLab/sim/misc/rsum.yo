@@ -1,0 +1,60 @@
+                      | # Maxwell Petersen
+                      | # mpeter39
+                      | # Execution begins at address 0
+  0x000:              | 		.pos 0
+  0x000: 30f400030000 | init:	irmovl Stack, %esp
+  0x006: 30f500030000 | 		irmovl Stack, %ebp
+  0x00c: 802c000000   | 		call Main
+  0x011: 00           | 		halt
+                      | 
+                      | # Linked list of 3 elements
+  0x014:              | 		.align 4
+  0x014: 0a000000     | ele1:	.long 0x00a
+  0x018: 1c000000     | 		.long ele2
+  0x01c: b0000000     | ele2:	.long 0x0b0
+  0x020: 24000000     | 		.long ele3
+  0x024: 000c0000     | ele3:	.long 0xc00
+  0x028: 00000000     | 		.long 0
+                      | 
+  0x02c:              | Main:
+  0x02c: a05f         | 		pushl %ebp
+  0x02e: 2045         | 		rrmovl %esp, %ebp
+  0x030: 30f214000000 | 		irmovl ele1, %edx
+  0x036: a02f         | 		pushl %edx
+  0x038: 8042000000   | 		call rsum_list
+  0x03d: 2054         | 		rrmovl %ebp, %esp
+  0x03f: b05f         | 		popl %ebp
+  0x041: 90           | 		ret
+                      | 
+  0x042:              | rsum_list:
+  0x042: a05f         | 		pushl %ebp
+  0x044: 2045         |         rrmovl %esp, %ebp
+  0x046: 30f600000000 |         irmovl $0, %esi         # set 0 for check of base case
+  0x04c: 503508000000 |         mrmovl 8(%ebp), %ebx
+  0x052: 6363         |         xorl %esi, %ebx
+  0x054: 7460000000   |         jne NtZero
+  0x059: 6300         |         xorl %eax, %eax			# base case return value
+  0x05b: 7085000000   |         jmp End              	# jump to end
+                      | 
+  0x060:              | NtZero:
+  0x060: a02f         | 		pushl %edx
+  0x062: 502300000000 |      	mrmovl (%ebx), %edx
+  0x068: 503304000000 |      	mrmovl 4(%ebx), %ebx
+  0x06e: a03f         |      	pushl %ebx
+  0x070: 8042000000   |      	call rsum_list
+  0x075: 2053         |      	rrmovl %ebp, %ebx
+  0x077: 30f104000000 |      	irmovl $4, %ecx
+  0x07d: 6113         |      	subl %ecx, %ebx
+  0x07f: 2034         |      	rrmovl %ebx, %esp
+  0x081: 6020         |      	addl %edx, %eax
+  0x083: b02f         |      	popl %edx
+                      | 
+  0x085:              | End:
+  0x085: 2054         |     	rrmovl %ebp, %esp
+  0x087: b05f         |         popl %ebp               # restore stack frame
+  0x089: 90           |         ret
+                      | 
+                      | 
+                      | # The stack goes here
+  0x300:              | 	.pos 0x300
+  0x300:              | Stack:	

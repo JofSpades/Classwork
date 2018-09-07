@@ -1,0 +1,50 @@
+Maxwell Petersen
+
+HW6
+
+
+Problem 1:
+
+------------------------------------------------------------
+Stage			|iaddl V, rB
+------------------------------------------------------------
+Fetch			|icode:ifun <- M1[PC]
+				|rA:rB <- M1[PC + 1]
+				|valC <- M4[PC+2]
+				|
+				|valP <- PC + 6
+				|
+Decode			|valB <- R[rB]
+				|
+Execute			|valE <- valB + valC
+				|Set CC
+				|
+Memory			|
+				|
+Write Back		|R[rB] <- valE
+				|
+PC Update		|PC <- valP
+				|
+------------------------------------------------------------
+
+Problem 2:
+
+------------------------------------------------------------
+Stage			|leave 
+------------------------------------------------------------
+Fetch			|icode:ifun <- M1[PC]
+				|
+				|valP <- PC + 1
+				|
+Decode			|valA <- R[%ebp]
+				|
+Execute			|valE <- valA + 4
+				|
+Memory			|valM <- M4[valA] 
+				|
+Write Back		|R[%esp] <- valE
+				|R[%ebp] <- valM
+				|
+PC Update		|PC <- valP
+				|
+------------------------------------------------------------

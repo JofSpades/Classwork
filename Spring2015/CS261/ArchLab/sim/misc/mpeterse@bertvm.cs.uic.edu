@@ -1,0 +1,67 @@
+# Execution begins at address o
+		.pos 0
+init:	irmovl Stack, %esp
+		irmovl Stack, %ebp
+		call Main
+		halt
+
+# Linked list of 3 elements
+		.align 6
+ele1:	.long 0x00a
+		.long ele2
+ele2:	.long 0x0b0
+		.long ele3
+ele3:	.long 0xc00
+		.long 0
+
+Main:
+		pushl %ebp
+		rrmovl %esp, %ebp
+		irmovl $4, %eax
+		pushl %eax
+		irmovl ele1, %edx
+		pushl %edx
+		irmovl ele2, %edx
+		pushl %edx
+		irmovl ele3, %edx
+		call rsum_list
+		rrmovl %ebp, %esp
+		popl %ebp
+		ret
+
+rsum_list:
+		pushl %ebp
+        rrmovl %esp,%ebp
+        irmovl $24,%ebx			#setup for stack size
+        subl %ebx,%esp
+        mrmovl 12(%ebp), %ecx
+        xorl %ebx, %ebx         # set 0 for check of base case
+        andl %ebx, %ecx
+        jne Loop
+        xorl %eax, %eax			# base case return value
+        andl %ecx,%ecx          #
+        je End              	# jump if %ecx == 0
+
+Loop:
+     	mrmovl (%ecx),%esi		# get *ls
+     	mrmovl (%esi),%edi
+     	rmmovl %edi, -16(%ebp)
+        mrmovl 4(%ecx), %ecx    # get next element
+        irmovl $12, %ebx
+        subl %ebx,%esp
+        pushl %ecx
+        call rsum_list
+        irmovl $16, %ebx
+        addl %ebx, %esp
+        mrmovl -16(%ebp), %ecx
+        mrmovl -12(%ebp), %eax
+        addl %ecx,%eax
+End:
+    	rrmovl %ebp, %esp
+        popl %ebp               # restore stack frame
+        ret
+
+
+# The stack goes here
+	.pos 0x300
+Stack:	

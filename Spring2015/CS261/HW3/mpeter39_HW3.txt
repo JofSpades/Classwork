@@ -1,0 +1,25 @@
+Answers are written below each line marked buy <| |>
+
+#include <studio.h>
+int main()
+{
+  int x = 0x______________;
+            <| deadbeef |>
+  int result = _______;
+               <| 0 |>
+  int mask;
+  for(mask = _______; mask __________; mask = ______________)
+             <| 1 |>       <| != 0 |>         <| mask * 2 |>
+  {
+    result += __________________;
+              <| ! (x & mask) |>
+  }
+}
+
+1)
+x = -16(%ebp)
+result = -12(%ebp)
+mask = -8(%ebp)
+
+2)
+This program counts the number of 0’s in the variable x, by shifting the size of the mask by one bit every iteration then stopping once there is over flow and the value becomes 0. The & operator leaders, in junction with the shifting of the mask one bit to the left, leaders me to thing about the counting. The ! operator leaders to the idea of looking for zeros because with a singular ! you are looking for the cases where the & is false then making them true so they can be counted.

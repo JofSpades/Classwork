@@ -1,0 +1,130 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}          % gives custom-labeled enumerations
+\usepackage{graphics}
+\usepackage{mathabx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows,automata,positioning}
+% Draw states as black circles filled with gray.
+\tikzstyle{every state}=[fill=black!10]
+% Set the size of the double circle around accept states.
+\tikzstyle{accepting}=[double=black!10,double distance=2pt,outer sep=1pt+\pgflinewidth]
+% No text on start arrows.
+\tikzstyle{every initial by arrow}=[initial text=]
+% Set bend angle, set the label to appear next to the curve, and set
+% the arrow style.
+\tikzstyle{every edge}=[draw,bend angle=15,auto,>=stealth']
+
+\setlist[enumerate]{label=\textbf{\alph{*}.},listparindent=1em}
+
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\topskip}{0in}
+
+\newcommand{\Z}{\mathbb{Z}}     % Rich man's black board's font.
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+
+% taken from hs's mary.tex, and tracing back to knuth.
+\def\dash---{\kern.16667em---\penalty\exhyphenpenalty\hskip.16667em\relax}
+
+\newcommand{\st}{\;\;\text{s.t.}\;\;}
+\newcommand{\rev}{^{\scriptscriptstyle\mathcal{R}}}
+\newcommand*\comp{^{\mathcal C}}
+% Write alphabet symbols in typewriter font as per Sipser.
+\newcommand\s[1]{\ensuremath{\mathtt{#1}}}
+\newcommand*\langop{\textsc}
+
+\let\oldsetminus\setminus
+\renewcommand*\setminus{\mathbin\oldsetminus}
+
+% Set the exercises number and your name.
+\title{Problem Set \#4;}
+\author{Maxwell Petersen}
+
+% No need to change these 4 lines.
+\makeatletter
+\newcommand\exercise[1]{\par\vspace{4ex}\normalfont\normalsize\noindent
+\textbf{\large Problem #1}\par\nobreak\@afterindentfalse\@afterheading}
+\makeatother
+
+
+\begin{document}
+\maketitle
+
+\exercise{1}
+Let $M_1 = (Q_1, \Sigma_1, \delta_1, q_1, F_1)$ and $M_2 = (Q_2, \Sigma_2, \delta_2, q_2, F_2)$. Such that $L(M_1) = A$ and  $L(M_2) = B$. Build $M = (Q, \Sigma, \delta, q_0, F)$ such that $L(M) = f(A, B)$.\\
+\begin{align*}
+Q &=Q_1 \times Q_2 \times \{1,2\}\\
+\delta(q, t) &=\delta_1(q, t)\rightarrow q \times t \times 1& \forall q \in Q_1,&\forall t \in \Sigma&\\
+\delta(q, t) &=\delta_2(q, t)\rightarrow q \times t \times 2& \forall q \in Q_2,&\forall t \in \Sigma&\\
+q_0&= q_1\\
+F&= F_1 \times F_2
+\end{align*}
+This works for any state in $f(A, B)$ because for any state in $Q_2$ a $\Sigma$ symbol can be applied specifically to $q\in Q_1$ to progress the sub DFA $A$ and the inverse is true for the DFA for $B$.
+
+\exercise{2}
+Let $M_1 = (Q_1, \Sigma_1, \delta_1, q_1, F_1)$ and $M_2 = (Q_2, \Sigma_2, \delta_2, q_2, F_2)$. Such that $L(M_1) = A$ and  $L(M_2) = B$. Build $M = (Q, \Sigma, \delta, q_0, F)$ such that $L(M) = f(A, B)$.\\
+\begin{align*}
+Q &=Q_1 \times Q_2 \times \{1,2\}\\
+\delta(q, t) &=\delta_1(q, t)\rightarrow q \times t \times 1& \forall q \in Q_1,&\forall t \in \Sigma&\\
+\delta(q, t) &=\delta_2(q, t)\rightarrow q \times t \times 2& \forall q \in Q_2,&\forall t \in \Sigma&\\
+\delta(q, \epsilon) &= q\\
+q_0&: initial state\\
+F&= F_1 \times F_2
+\end{align*}
+This works for any state in $f(A, B)$ because for any state in $Q_2$ a $\Sigma$ symbol can be applied specifically to $q\in Q_1$ to progress the sub DFA $A$ and the inverse is true for the DFA for $B$. Also for any $\epsilon$ symbol the sub DFAs don't progress.
+
+\exercise{3}
+Let $M_1 = (Q_1, \Sigma_1, \delta_1, q_1, F_1)$ and $M_2 = (Q_2, \Sigma_2, \delta_2, q_2, F_2)$. Such that $L(M_1) = A$ and  $L(M_2) = B$. Build $M = (Q, \Sigma, \Gamma,\delta, q_0, F)$ such that $L(M) = f(A, B)$.\\
+\begin{align*}
+Q &=Q_1 \times Q_2 \times \{1,2\}\\
+\Gamma &=\{X\}\\
+\delta(q_0, \epsilon, \$) &=\{(q_1, \$)\}\\
+\delta(q, t, \epsilon) &=q \times t \times 1 \rightarrow X& \forall q \in Q_1, t \in \Sigma^{*}\\
+\delta(q, t, X) &=q \times t \times 2 \rightarrow \epsilon& \forall q \in Q_2, t \in \Sigma^{*}\\
+q_0&: initial state\\
+F&= F_1 \times F_2
+\end{align*}
+This will keep track of the length of each input string by placing a symbol on the stack and popping it off as the two sub routines run to their final states.
+
+\exercise{4}
+To show that $B \setminus A$ is decidable with $A$ being a CFL and $B$ being a regular language we make a decider $D$ in the following form:\\
+\begin{align*}
+D =& "Given\ input < A, B, w>.\\
+&1.Convert\ A\ to\ CNF.\\
+&2.Simulate\ A\ on\ w\ for\ 2n-1\ steps,\ n\ being\ the\ amount\ of\ rules\ in\ A.\\
+&3.Simulate\ B\ on\ w.\\
+&4. Accept\ if\ B\ accepts\ and\ A\ rejects,\ otherwise\ reject."
+\end{align*}
+
+\exercise{5}
+The language is defined in the following manner:\\
+$A = \{ <M> |$ given a representation of a program $M$ accept when $M$ crashes$\}$\\
+$A_{TM} \leq_m A$ using the mapping function $f(<M,w>) \mapsto <M>$. Assuming that $A$ is RE then $A_{TM}$ would also be RE which has been proven otherwise creating a contradiction. Meaning $A$ is not RE.\\
+\cleardoublepage
+
+\exercise{6}
+By definition of $ALL_{TM}$ any input TM is seen to accept $\Sigma^{*}$ meaning that $ALL_{TM}$ is not decidable because for some input TMs will loop while running. Let $A$ be a TM that runs $ALL_{TM}$ to prove that it is RE. $A$ is defined in the following manner:\\
+\begin{align*}
+A = &"On\ input\ <M>.\\
+&1.Run\ EQ_{TM}\ <M, C>\ with\ C\ defined\ as\ so:\\
+&\quad C\ ='Accept\ all\ strings.'\\
+&2.If\ EQ_{TM}\ accepts,\ accept,\ otherwise\ reject."
+\end{align*}
+We have proven that $EQ_{TM}$ is RE then by having a TM for $ALL_{TM}$ the compliment of $ALL_{TM}$ is not RE because for the compliment to be RE the TM would have to be a decider which it is not.
+
+\exercise{7}
+Assume for contradiction that there a procedure $P$ that on input $<G>$ that will return $<G_{normal}>$ such taht if $G$ and $G'$ are CFG's such that $L(G) = L(G')$then $G_{normal} = G'_{normal}$ and if $L(G)\neq L(G')$ then $G_{normal} \neq G'_{normal}$. Let $A = \{a^nb^m | n,m \geq 0\}$ .Let $A' = A$ applying $P$ to $A$ and $A'$ will yelid us with $G_{normal}$ and $G'_{normal}$ respectively  and to show that the results are not unique:\\
+\begin{align*}
+G_{normal} = &S \rightarrow aSbT | a\\
+&T \rightarrow bT | b\\
+\\G'_{normal} = &S \rightarrow aTbS | b\\
+&T \rightarrow aT | a
+\end{align*}
+Both of these CFGs produce $A$ and with no smaller possible CFG we show the contradiction with $G_{normal} \neq G'_{normal}$ with $G = G'$.
+
+\end{document}

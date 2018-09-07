@@ -1,0 +1,231 @@
+#/* $begin ncopy-ys */
+##################################################################
+# ncopy.ys - Copy a src block of len ints to dst.				 #
+# Return the number of positive ints (>0) contained in src.		 #
+#																 #
+# Include your name and ID here.								 #
+# Maxwell Petersen - mpeter39									 #
+# Describe how and why you modified the baseline code.			 #
+# Implamented IADDL and made code to skip over Done so I could	 #
+# use the leave function. Then I unrlled the loop to the 16th    #
+# element with checks for end at each part. Currently using      #
+# ./benchmark.pl I get 12.89CPE 								 #
+##################################################################
+# Do not modify this portion
+# Function prologue.
+ncopy:	pushl %ebp		# Save old frame pointer
+	rrmovl %esp,%ebp	# Set up new frame pointer
+	pushl %esi		# Save callee-save regs
+	pushl %ebx
+	pushl %edi
+	mrmovl 8(%ebp),%ebx	# src
+	mrmovl 16(%ebp),%edx	# len
+	mrmovl 12(%ebp),%ecx	# dst
+
+##################################################################
+# You can modify this portion
+	# Loop header
+	xorl %eax, %eax
+
+Npos:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl (%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, (%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos2
+	iaddl $1, %eax		# count++
+
+Npos2:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 4(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 4(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos3
+	iaddl $1, %eax		# count++
+
+Npos3:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 8(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 8(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos4
+	iaddl $1, %eax		# count++
+
+Npos4:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 12(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 12(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos5
+	iaddl $1, %eax		# count++
+
+Npos5:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 16(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 16(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos6
+	iaddl $1, %eax		# count++
+
+Npos6:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 20(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 20(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos7
+	iaddl $1, %eax		# count++
+
+Npos7:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 24(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 24(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos8
+	iaddl $1, %eax		# count++
+
+Npos8:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 28(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 28(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos9
+	iaddl $1, %eax		# count++
+
+Npos9:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 32(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 32(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos10
+	iaddl $1, %eax		# count++
+
+Npos10:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 36(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 36(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos11
+	iaddl $1, %eax		# count++
+
+Npos11:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 40(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 40(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos12
+	iaddl $1, %eax		# count++
+
+Npos12:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 44(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 44(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos13
+	iaddl $1, %eax		# count++
+
+Npos13:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 48(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 48(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos14
+	iaddl $1, %eax		# count++
+
+Npos14:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 52(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 52(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos15
+	iaddl $1, %eax		# count++
+
+Npos15:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 56(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 56(%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Npos16
+	iaddl $1, %eax		# count++
+
+Npos16:
+	andl %edx, %edx		# len > 0?
+	jle Clean
+	mrmovl 60(%ebx), %esi	# read val from src...
+	iaddl $-1, %edx		# len--
+	rmmovl %esi, 60(%ecx)	# ...and store it to dst
+	iaddl $64, %ebx		# src++
+	iaddl $64, %ecx		# dst++
+	andl %esi, %esi
+	jle LoopUp
+	iaddl $1, %eax		# count++
+
+LoopUp:
+	andl %edx,%edx		# len > 0?
+	jg Npos				# if so, goto Loop:
+
+Clean:
+	andl %edx,%edx		# len = 0?
+	je End				# if so, goto End:
+	mrmovl (%ebx), %esi	# read val from src...
+	iaddl $1, %edx		# len++
+	rmmovl %esi, (%ecx)	# ...and store it to dst
+	andl %esi, %esi
+	jle Clean2
+	iaddl $1, %eax		# count++
+
+Clean2:
+	iaddl $-4, %ebx		# src++
+	iaddl $-4, %ecx		# dst++
+	andl %edx,%edx		# len > 0?
+	jg Clean			# if so, goto clean:
+
+End:
+	popl %edi
+	popl %ebx
+	popl %esi
+	leave
+	ret
+##################################################################
+# Do not modify the following section of code
+# Function epilogue.
+Done:
+	popl %edi             # Restore callee-save registers
+	popl %ebx
+	popl %esi
+	rrmovl %ebp, %esp
+	popl %ebp
+	ret
+##################################################################
+# Keep the following label at the end of your function
+End:
+#/* $end ncopy-ys */

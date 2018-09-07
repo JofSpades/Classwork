@@ -1,0 +1,1079 @@
+<?php
+function oss_request_menu() {
+    $items = array();
+    $items['oss_non_client/form'] = array(
+        'title' => 'OSS General Request Form',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('oss_non_client_oss_general_request_form'),
+        'access arguments' => array('access content'),
+        'description' => 'General purpose form for requesting a service call from On-Site Support',
+        'type' => MENU_LOCAL_TASK,
+    );
+    $items['oss_client/form'] = array(
+        'title' => 'On-Site Support Client Request Form',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('oss_client_oss_general_request_form'),
+        'access arguments' => array('access content'),
+        'description' => 'Client request form for On-Site Support',
+        'type' => MENU_CALLBACK,
+        'file' => 'oss_client.inc'
+    );
+    return $items;
+}
+function checkIfClient($email){
+    $query = db_select('oss_client_staff', 'data')
+        ->fields('data')
+        ->condition('email', $email,'=')
+        ->execute()
+        ->fetchAssoc();
+    return $query;
+}
+
+function oss_non_client_oss_general_request_form($form, &$form_state) {
+    global $user;
+    if(!isset($_SESSION['shib_auth_username'])){
+        drupal_goto('/');
+    } else {
+        $client = checkIfClient($_SESSION['shib_auth_username'].'@uic.edu');
+        if($client != null){
+            drupal_goto('/oss_client/form');
+        }
+    }
+    $form['#attached']['js'] = array(
+        drupal_get_path('module','oss_request').'/moment.js',
+        drupal_get_path('module','oss_request').'/oss_javascript.js',
+    );
+    $form['gen_info'] = array(
+        '#type' => 'fieldset',
+        '#title'=> t('General Information'),
+    );
+    $form['gen_info']['name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Name'),
+        '#required' => TRUE,
+        '#description' => t('First and last name'),
+    );
+    $form['gen_info']['email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('UIC Email'),
+        '#required' => TRUE,
+	'#default_value' => $user->mail,
+        '#description' => t('UIC email only'),
+    );
+    $form['gen_info']['phone_number'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Phone Number'),
+        '#required' => TRUE,
+        '#description' => t('x-xxxx'),
+    );
+    $form['gen_info']['department_drop_down'] = array(
+        '#type' => 'select',
+        '#title' => t('Department'),
+        '#options' => array(
+            0 => t('Please select a department'),
+            1 => t('Afican-American Cultural Center'),
+            2 => t('Biochemistry and Molecular Genetics, Chicago, Department of'),
+            3 => t('Latino Cultural Center'),
+            4 => t('Woman\'s Leadership and Resouce Center/Campus Advacacy Network'),),
+        
+    );
+    $form['gen_info']['department_other'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Other Department'),
+    );
+    $form['gen_info']['office_location'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Office Location'),
+        '#required' => TRUE,
+        '#description' => t('Where your office is located (i.e SEL 2256)'),
+    );
+    $form['business_manager'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Business Manager'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+    $form['business_manager']['business_name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Name'),
+        //'#required' => TRUE,
+    );
+    $form['business_manager']['business_email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('UIC Email'),
+        //'#required' => TRUE,
+        '#description' => t('UIC email only'),
+    );
+    $form['business_manager']['business_phone_number'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Phone Number'),
+        //'#required' => TRUE,
+        '#description' => t('x-xxxx'),
+    );
+    $form['business_manager']['business_office_location'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Office Loaction'),
+        //'#required' => TRUE,
+        '#description' => t('Location of your departments business manager'),
+    );
+    $form['reach_contact'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('REACH Contact'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+    $form['reach_contact']['reach_name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Name'),
+        //'#required' => TRUE,
+    );
+    $form['reach_contact']['reach_email'] = array(
+        '#type' => 'textfield',
+        '#title' => t('UIC Email'),
+        //'#required' => TRUE,
+        '#description' => t('UIC email only'),
+    );
+    $form['reach_contact']['reach_phone_number'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Phone Number'),
+        //'#required' => TRUE,
+        '#description' => t('x-xxxx'),
+    );
+    $form['reach_contact']['reach_office_location'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Office Loaction'),
+        '#description' => t('Location of your departments REACH contact'),
+        //'#required' => TRUE,
+    );
+    $date = new DateTime(date("Y-m-d H:i:s"));
+    $date_format = 'm/d/Y';
+    $time_format = 'h:ia';
+    $weekend = array('Sun' => '','Sat' => '');
+    $nextDay = clone $date;
+    $i = 0;
+    $nextDates = array();
+    while ($i < 3){
+        $nextDay->add(new DateInterval('P1D'));
+        if (isset($weekend[$nextDay->format('D')])) continue;
+        $nextDates[] = $nextDay->format('Y-m-d H:i:s');
+        $i++;
+    }
+    $form['date1'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('First Service Request Time'),
+    );
+    $form['date1']['date1_date'] = array(
+        '#type' => 'date_popup',
+        '#default_value' => $nextDates[0],
+        '#date_type' => DATE_DATETIME,
+        '#date_format' => $date_format,
+        '#date_increment' => 1,
+        '#dateonly' => TRUE,
+    );
+    $form['date1']['date1_start'] = array(
+        '#type' => 'date_popup',
+        '#default_value' => $nextDates[0],
+        '#date_type' => DATE_DATETIME,
+        '#date_format' => $time_format,
+        '#date_increment' => 15,
+        '#title' => t('Start'),
+        '#timeonly' => TRUE,
+    );
+    $form['date1']['date1_end'] = array(
+        '#type' => 'date_popup',
+        '#default_value' => $nextDates[0],
+        '#date_type' => DATE_DATETIME,
+        '#date_format' => $time_format,
+        '#date_increment' => 15,
+        '#title' => t('End'),
+        '#timeonly' => TRUE,
+    );
+    $form['date2'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Second Service Request Time'),
+    );
+    $form['date2']['date2_date'] = array(
+        '#type' => 'date_popup',
+        '#default_value' => $nextDates[1],
+        '#date_type' => DATE_DATETIME,
+        '#date_format' => $date_format,
+        '#date_increment' => 1,
+        '#dateonly' => TRUE,
+    );
+    $form['date2']['date2_start'] = array(
+        '#type' => 'date_popup',
+        '#default_value' => $nextDates[1],
+        '#date_type' => DATE_DATETIME,
+        '#date_format' => $time_format,
+        '#date_increment' => 15,
+        '#timeonly' => TRUE,
+        '#title' => t('Start'),
+    );
+    $form['date2']['date2_end'] = array(
+        '#type' => 'date_popup',
+        '#default_value' => $nextDates[1],
+        '#date_type' => DATE_DATETIME,
+        '#date_format' => $time_format,
+        '#date_increment' => 15,
+        '#timeonly' => TRUE,
+        '#title' => t('End'),
+    );
+    $form['date3'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Third Service Request Time'),
+    );
+    $form['date3']['date3_date'] = array(
+        '#type' => 'date_popup',
+        '#default_value' => $nextDates[2],
+        '#date_type' => DATE_DATETIME,
+        '#date_format' => $date_format,
+        '#date_increment' => 1,
+        '#dateonly' => TRUE,
+    );
+    $form['date3']['date3_start'] = array(
+        '#type' => 'date_popup',
+        '#default_value' => $nextDates[2],
+        '#date_type' => DATE_DATETIME,
+        '#date_format' => $time_format,
+        '#date_increment' => 15,
+        '#title' => t('Start'),
+        '#timeonly' => TRUE,
+    );
+    $form['date3']['date3_end'] = array(
+        '#type' => 'date_popup',
+        '#default_value' => $nextDates[2],
+        '#date_type' => DATE_DATETIME,
+        '#date_format' => $time_format,
+        '#date_increment' => 15,
+        '#title' => t('End'),
+        '#timeonly' => TRUE,
+    );
+    $form['machine_type'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Machine Type'),
+    );
+    $form['machine_type']['machine_types'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            'machine_wlaptop' => t('Windows Laptop'),
+            'machine_wdesktop' => t('Windows Desktop'),
+            'machine_alaptop' => t('Apple Laptop'),
+            'machine_adesktop' => t('Apple Desktop'), 
+            'machine_tablet' => t('Tablet (i.e. Microsoft Surface)'),
+            'machine_printer' => t('Printer'),),
+    );
+    $form['machine_type']['other_machine'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Other'),
+    );
+    $form['problem_type'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Problem Type'),
+    );
+    $form['problem_type']['hardware'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Hardware'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+    $form['problem_type']['hardware']['hardware_types'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            'hardware_drive' => t('Hard Drive'),
+            'hardware_video' => t('Video Display'),
+            'hardware_peripherals' => t('Peripherals'),),
+    );
+    $form['problem_type']['hardware']['other_hardware'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Other'),
+    );
+    $form['problem_type']['internet'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Internet'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+    $form['problem_type']['internet']['internet_types'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            'internet_connection' => t('Connectivity issues'),),
+    );
+    $form['problem_type']['internet']['other_internet'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Other'),
+    );
+    $form['problem_type']['migration'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Migration'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+    $form['problem_type']['migration']['migration_types'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            'migration_account' => t('Account'),
+            'migration_data' => t('Data'),
+            'migration_office' => t('Office/Location'),),
+    );
+    $form['problem_type']['nas_server'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('NAS/Server'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+    $form['problem_type']['nas_server']['nas_other'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Other'),
+    );
+    $form['problem_type']['new_user_computer'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('New User/Computer'),
+        '#collapsible' => TRUE,
+        '#collapsed'=> TRUE,
+    );
+    $form['problem_type']['new_user_computer']['new_user_computer_types'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            'new_computer' => t('Computer set-up'),
+            'new_image' => t('Re-image'),
+            'new_upgrade' => t('Upgrade'),),
+    );
+    $form['problem_type']['phones'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Phones'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#description' => t('Please direct any phone issues to your department\'s business manager, the business manager should then be able to contact telecom.'),
+    );
+    $form['problem_type']['printer'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Printers'),
+        '#collapsible' =>TRUE,
+        '#collapsed' => TRUE,
+    );
+    $form['problem_type']['printer']['printer_types'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            'printer_connection' =>t('Connectivity'),
+            'printer_jams' => t('Jams'),),
+    );
+    $form['problem_type']['printer']['other_printer'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Other'),
+    );
+    $form['problem_type']['recovery'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Recovery'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+    $form['problem_type']['recovery']['recovery_types'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            'recovery_password' => t('Password'),
+            'recovery_date' => t('Data*'),
+            'recovery_bit' =>t('Bit Locker'),),
+        '#description' => t('*We will make one attempt on retreaving the data but there is no guarentee of success.'),
+    );
+    $form['problem_type']['software'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Software'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+    );
+    $form['problem_type']['software']['software_types'] = array(
+        '#type' => 'checkboxes',
+        '#options' => array(
+            'software_install' => t('Install request*'),
+            'software_microsoft' => t('Microsoft Office'),
+            'software_pinnacle' => t('Pinnacle, Banner'),
+            'software_web' => t('Web browsers'),),
+        '#description' => t('*If the product is not freely available from the WebStore, please have a copy of the software available for us to install for you, and specify the exact software in the "Other" box below'),
+    );
+    $form['problem_type']['software']['other_software'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Other'),
+    );
+    $form['problem_type']['other_problem'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Other Type of Problem'),
+    );
+    $form['problem_type']['extra_info'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Extra Explinaiton'),
+        '#maxLength' => 32767,
+    );
+    $form['acknowledgement'] = array(
+        '#type' => 'radios',
+        '#title' => t('I understand that I am requesting a fee-based service to resolve the problem I are experiencing, and I have first contacted my department\'s REACH IT contact for support.  I have also received permission from my department\'s business manager to request a billable service, and will provide a C-FOAP account code to charge against when it is requested.'),
+        '#default_value' => NULL,
+        '#options' => array(0 => 'Acknowledged'),
+        '#required' => TRUE,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Submit',
+    );
+    return $form;
+}
+
+function sooner_than_three_months($date){
+    $date_time = date("Y-m", strtotime("+3 Months"));
+    $request_month_year = substr($date, 0, 7);
+    if(($request_month_year > $date_time)){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function all_days_are_the_same($one, $two, $three){
+    if(($one == $two) || ($one == $three) || ($two == $three)){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function is_start_after_end($start, $end){
+    $start_hour = substr($start, 0, 2);
+    $end_hour = substr($end, 0, 2);
+    if($start_hour > $end_hour){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function start_too_early($start){
+    $start_hour = substr($start, 0, 2);
+    if($start_hour < "09"){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function start_too_late($start){
+    $start_hour = substr($start, 0, 2);
+    $start_minute = substr($start, 3, 2);
+    if($start_hour >= "16" && $start_minute >= "15"){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function end_too_late($end){
+    $end_hour = substr($end, 0, 2);
+    if($end_hour > "17"){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function enough_time($start, $end){
+    $start_time = new DateTime($start);
+    $start_time->add(new DateInterval('PT1H'));
+    $end_time = new DateTime($end);
+    if($start_time <= $end_time){
+        return true;
+    } else {
+        return false;;
+    }
+}
+
+function request_too_soon($request){
+    $tomorrow = new DateTime('tomorrow');
+    $tomorrow = $tomorrow->format('Y-m-d');
+    if($request < $tomorrow){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function oss_non_client_oss_general_request_form_validate($form, &$form_state){
+    if(!valid_email_address($form_state['values']['email']) || (strpos($form_state['values']['email'], '@uic.edu') === false)){
+        form_set_error('email', 'Your email is not of a valid form, netid@uic.edu is required.');
+    }
+    $pos = strpos($form_state['values']['phone_number'], '-');
+    $length = strlen($form_state['values']['phone_number']);
+    if($pos === false && $length != 6){
+        form_set_error('phone number', 'Your phone number is not valid, the phone number is of the form x-xxxx, the last five digits of your office number');
+    }
+    $selected_department = $form_state['values']['department_drop_down'];
+    $other_department = $form_state['values']['department_other'];
+    if($selected_department == 0 && $other_department == ""){
+        form_set_error('selected_department other_department', 'Please select a department.');
+    }
+    if($other_department != "" && $form_state['values']['business_name'] ==""){
+        form_set_error('business_name', 'Please provide your department\'s Business Manager\'s name');
+    }
+    if($other_department != "" && $form_state['values']['business_email'] ==""){
+        form_set_error('business_email', 'Please provide your department\'s Business Manager\'s name');
+    }
+    if($other_department != "" && $form_state['values']['business_phone_number'] ==""){
+        form_set_error('business_phone_number', 'Please provide your department\'s Business Manager\'s phone number');
+    }
+    if($other_department != "" && $form_state['values']['business_office_locaiton'] ==""){
+        form_set_error('business_office_location', 'Please provide your department\'s Business Manager\'s Office Location');
+    }
+    if($other_department != "" && $form_state['values']['reach_name'] ==""){
+        form_set_error('reach_name', 'Please provide your department\'s REACH contact\'s name');
+    }
+    if($other_department != "" && $form_state['values']['reach_email'] ==""){
+        form_set_error('reach_email', 'Please provide your department\'s REACH contact\'s email');
+    }
+    if($other_department != "" && $form_state['values']['reach_phone_number'] ==""){
+        form_set_error('reach_phone_number', 'Please provide your department\'s REACH contact\'s phone number');
+    }
+    if($other_department != "" && $form_state['values']['reach_office_locaiton'] ==""){
+        form_set_error('reach_office_location', 'Please provide your department\'s REACH contacts\'s office location');
+    }
+    if($form_state['values']['department_other'] != ""){
+        if(!valid_email_address($form_state['values']['business_email']) || (strpos($form_state['values']['business_email'], '@uic.edu') === false)){
+            form_set_error('business_email', 'The business manager email is not of a valid form, netid@uic.edu');
+        }
+        if(!valid_email_address($form_state['values']['reach_email']) || (strpos($form_state['values']['reach_email'], '@uic.edu') === false)){
+            form_set_error('reach_email', 'The REACH contact email is not of a valid form, netid@uic.edu');
+        }
+        $pos = strpos($form_state['values']['reach_phone_number'], '-');
+        $length = strlen($form_state['values']['reach_phone_number']);
+        if($pos === false && $length != 6){
+            form_set_error('phone number', 'Your REACH contact\'s phone number is not valid, the phone number is of the form x-xxxx, the last five digits of the number');
+        }
+        $pos = strpos($form_state['values']['business_phone_number'], '-');
+        $length = strlen($form_state['values']['business_phone_number']);
+        if($pos === false && $length != 6){
+            form_set_error('phone number', 'Your business manager\'s phone number is not valid, the phone number is of the form x-xxxx, the last five digits of the number');
+        }
+    }
+    if(array_search('software_install', array_filter($form_state['values']['software_types'])) && $form_state['values']['other_software'] == ""){
+        form_set_error('software install', 'You need to provide us with the software you want installed');
+    }
+    $date_one_date = $form_state['values']['date1_date'];
+    $date_one_start = $form_state['values']['date1_start'];
+    $date_one_end = $form_state['values']['date1_end'];
+    $date_two_date = $form_state['values']['date2_date'];
+    $date_two_start = $form_state['values']['date2_start'];
+    $date_two_end = $form_state['values']['date2_end'];
+    $date_three_date = $form_state['values']['date3_date'];
+    $date_three_start = $form_state['values']['date3_start'];
+    $date_three_end = $form_state['values']['date3_end'];
+    //machine type
+    $machine_types = array(
+        $form_state['values']['machine_types']['machine_wlaptop'],
+        $form_state['values']['machine_types']['machine_wdesktop'],
+        $form_state['values']['machine_types']['machine_alaptop'],
+        $form_state['values']['machine_types']['machine_adesktop'],
+        $form_state['values']['machine_types']['machine_tablet'],
+        $form_state['values']['machine_types']['machine_printer'],
+    );
+    $other_machine = $form_state['values']['other_machine'];
+    //problem types
+    $problem_types = array(
+        $form_state['values']['hardware_types']['hardware_drive'],
+        $form_state['values']['hardware_types']['hardware_video'],
+        $form_state['values']['hardware_types']['hardware_peripherals'],
+        $form_state['values']['internet_types']['internet_connection'],
+        $form_state['values']['migration_types']['migration_account'],
+        $form_state['values']['migration_types']['migration_data'],
+        $form_state['values']['migration_types']['migration_office'],
+        $form_state['values']['new_user_computer_types']['new_computer'],
+        $form_state['values']['new_user_computer_types']['new_image'],
+        $form_state['values']['new_user_computer_types']['new_upgrade'],
+        $form_state['values']['printer_types']['printer_connection'],
+        $form_state['values']['printer_types']['printer_jams'],
+        $form_state['values']['recovery_types']['recovery_password'],
+        $form_state['values']['recovery_types']['recovery_date'],
+        $form_state['values']['recovery_types']['recovery_bit'],
+        $form_state['values']['software_types']['software_install'],
+        $form_state['values']['software_types']['software_microsoft'],
+        $form_state['values']['software_types']['software_pinnacle'],
+        $form_state['values']['software_types']['software_web'],
+    );
+    $problem_other = array(
+        $form_state['values']['other_hardware'],
+        $form_state['values']['other_internet'],
+        $form_state['values']['nas_other'],
+        $form_state['values']['other_printer'],
+        $form_state['values']['other_software'],
+        $form_state['values']['other_problem'],
+        $form_state['values']['extra_info'],
+    );
+    if(request_too_soon($date_one_date)){
+        form_set_error('date_one_date' ,'First request day too soon, please allow at least one business day in advance for the service request. If we are able to we will try to accomidate a more urgent matter to be adressed sooner.');
+    }
+    if(request_too_soon($date_two_date)){
+        form_set_error('date_two_start' ,'Second request day too soon, please allow at least one business day in advance for the service request. If we are able to we will try to accomidate a more urgent matter to be adressed   sooner.');
+    }
+    if(request_too_soon($date_three_date)){
+        form_set_error('date_three_start' ,'Third request day too soon, please allow at least one business day in advance for the service request. If we are able to we will try to accomidate a more urgent matter to be adressed   sooner.');
+    }
+    if(!sooner_than_three_months($date_one_date)){
+        form_set_error('date_one_date', 'First service request day too far in advance, you can only request three months in advance');
+    }
+    if(!sooner_than_three_months($date_two_start, $date_two_end)){
+        form_set_error('date_two_start date_two_end', 'Second service request day too far in advance, you can only request three months in advance');
+    }
+    if(!sooner_than_three_months($date_three_start, $date_three_end)){
+        form_set_error('date_three_start date_three_end', 'Third service request day too far in advance, you can only request three months in advance');
+    }
+    if(all_days_are_the_same($date_one_date, $date_two_date, $date_three_date)){
+        form_set_error('date_one_start date_one_end date_two_start date_two_end date_three_start date_three_end' , 'Only one request time allowed per day');
+    }
+    if(is_start_after_end($date_one_start, $date_one_end)){
+        form_set_error('date_one_start _date_one_end', 'The end time for the first request date is before the start time.');
+    }
+    if(is_start_after_end($date_two_start, $date_two_end)){
+        form_set_error('date_two_start date_two_end', 'The end time for the second request date is before the start time');
+    }
+    if(is_start_after_end($date_three_start, $date_three_end)){
+        form_set_error('date_three_start date_three_end' ,'The end time for the third request date is before the start time');
+    }
+    if(start_too_early($date_one_start)){
+        form_set_error('date_one_start', 'The start time for your first request is too early, please make it later than 9:00 AM.');
+    }
+    if(start_too_late($date_one_start)){
+        form_set_error('date_one_start', 'The start time for your first request is too late, please make it earlier than 4:00 PM,');
+    } 
+    if(start_too_early($date_two_start)){
+        form_set_error('date_two_start', 'The start time for your second request is too early, please make it later than 9:00 AM.');
+    }
+    if(start_too_late($date_two_start)){
+        form_set_error('date_two_start', 'The start time for your second request is too late, please make it earlier than 4:00 PM,');
+    }
+    if(start_too_early($date_three_start)){
+        form_set_error('date_three_start', 'The start time for your third request is too early, please make it later than 9:00 AM.');
+    }
+    if(start_too_late($date_three_start)){
+        form_set_error('date_three_start', 'The start time for your third request is too late, please make it earlier than 4:00 PM,');
+    }
+    if(end_too_late($date_one_end)){
+        form_set_error('date_one_end', 'The end time for your first request is too late, please make it earlier than 5:00 PM');
+    }
+    if(end_too_late($date_two_end)){
+        form_set_error('date_two_end', 'The end time for your second request is too late, please make it earlier than 5:00 PM');
+    }
+    if(end_too_late($date_three_end)){
+        form_set_error('date_three_end', 'The end time for your third request is too late, please make it earlier than 5:00 PM');
+    }
+    if(!enough_time($date_one_start, $date_one_end)){
+        form_set_error('date_one_start date_one_end', 'We require a time window of at least 1 hour for each request time');
+    }
+    if(!enough_time($date_two_start, $date_two_end)){
+        form_set_error('date_two_start date_two_end', 'We require a tiem window of at least 1 hour for each request time');
+    }
+    if(!enough_time($date_three_start, $date_three_end)){
+        form_set_error('date_three_start date_three_end', 'We require a tiem window of at least 1 hour for each request time');
+    }
+    $machine_count = 0;
+    $machine_count = count($machine_types);
+    if($other_machine != ""){
+        $machine_count++;
+    }
+    if($machine_count < 1){
+        form_set_error('machine_types other_machine', 'Please provide a machine type');
+    }
+    $problem_count = 0;
+    $problem_count = count($problem_types);
+    $problem_count += count($problem_other);
+    if($problem_count == 0){
+        form_set_error('problem_types problem_other', 'Please provide a problem type');
+    }
+}
+
+$business_contact;
+
+function oss_non_client_oss_general_request_form_mail($key, &$message, $params){
+    global $business_contact;
+    $headers = array(
+        'MIME-Version' => '1.0',
+        'Content-Type' => 'text/html; charset=UTF-8;',
+        'Content-Transfer-Encoding' => '8Bit',
+        'X-Mailer' => 'Drupal',
+        'CC' => $business_contact,
+    );
+    foreach($headers as $key => $value){
+        $message['headers'][$key] = $value;
+    }
+    $message['subject'] = $params['subject'];
+    $message['body'] = $params['body'];
+}
+
+function get_contact($database, $dptid){
+    $query = db_select($database, 'data')
+        ->fields('data')
+        ->condition('dptid', $dptid, '=')
+        ->execute()
+        ->fetchAssoc(); 
+    return $query;
+}
+
+function get_last_reqid(){
+    $query = db_select('oss_request', 'data')
+        ->fields('data', array('reqid'))
+        ->orderBy('id', 'DESC')
+        ->range(0,1)
+        ->execute()
+        ->fetchAssoc();
+    return (int)$query['reqid'];
+}
+
+function insert_date($reqid, $date){
+    $query = db_insert('oss_request')
+        ->fields(array('reqid', 'date'))
+        ->values(array(
+            'reqid' => $reqid,
+            'date' => $date,
+        ))
+        ->execute();
+}
+
+function insert_question($reqid, $question){
+    $query = db_insert('oss_request')
+        ->fields(array('reqid', 'qid'))
+        ->values(array(
+            'reqid' => $reqid,
+            'qid' => $question,
+        ))
+        ->execute();
+}
+
+function insert_question_answer($reqid, $question, $answer){
+    $query = db_insert('oss_request')
+        ->fields(array('reqid', 'qid', 'answer'))
+        ->values(array(
+            'reqid' => $reqid,
+            'qid' => $question,
+            'answer' => $answer,
+        ))
+        ->execute();
+}
+
+function add_to_arrays($filtered, $add_in, &$array_values, $reqid, &$aCount){
+    foreach($add_in as $qid => $type){
+        foreach($filtered as $value){
+            if(strcmp($type[0], $value) == 0){
+                $array_values[$aCount] = $type[1];
+                insert_question($reqid, $qid);
+                $aCount++;
+            }    
+        }
+    }
+}
+
+function oss_non_client_oss_general_request_form_submit($form, &$form_state){ 
+    $req_name = $form_state['values']['name'];
+    $req_email = $form_state['values']['email'];
+    $req_phone = $form_state['values']['phone_number'];
+    $department_selection = $form_state['values']['department_drop_down'];
+    $other_department = $form_state['values']['department_other'];
+    $department;$department_name;$reach;$reach_contact;$business;
+    global $business_contact;
+    $req_office = $form_state['values']['office_location'];
+    $reqid = get_last_reqid();
+    $reqid++;
+    $is_other_machine = $form_state['values']['other_machine'];
+    if($other_department == ""){
+        switch($department_selection){
+        case 1:
+            $department = 1;
+            $department_name = 'AACC';
+            $reach = 1;
+            $reach_contact = get_contact('oss_reach', 1);
+            $business = 1;
+            $business_contact = get_contact('oss_business', 1);
+            break;
+        case 2:
+            $department = 3;
+            $department_name = 'DBMGC';
+            $reach = 3;
+            $reach_contact = get_contact('oss_reach', 3);
+            $business = 3;
+            $business_contact = get_contact('oss_business', 3);
+            break;
+        case 3:
+            $department = 4;
+            $department_name = 'LCC';
+            $reach = 4;
+            $reach_contact = get_contact('oss_reach', 4);
+            $business = 4;
+            $business_contact = get_contact('oss_business', 4);
+            break;
+        case 5:
+            $department = 2;
+            $department_name = 'WLRC/CAN';
+            $reach = 2;
+            $reach_contact = get_contact('oss_reach', 2);
+            $business = 2;
+            $business_contact = get_contact('oss_business', 2);
+            break;
+        }
+    } else {
+        $department = -1;
+        $department_name = $other_department;
+        $reach = -1;
+        $reach_contact = array(
+            ['name'] => $form_state['values']['reach_name'],
+            ['email'] => $form_state['values']['reach_email'],
+            ['phone'] => $form_state['values']['reach_phone_number'],
+            ['office'] => $form_state['values']['reach_office_location'],
+        );
+        $business = -1;
+        $business_contact = array(
+            ['name'] => $form_state['values']['business_name'],
+            ['email'] => $form_state['values']['business_email'],
+            ['phone'] => $form_state['values']['business_phone_number'],
+            ['office'] => $form_state['values']['business_office_location'],
+        );
+    }
+    $request = db_insert('oss_request')
+        ->fields(array('reqid', 'name', 'email', 'phone', 'dptid', 'office'))
+        ->values(array(
+            'reqid' => $reqid,
+            'name' => $req_name,
+            'email' => $req_email,
+            'phone' => $req_phone,
+            'dptid' => $department,
+            'office' => $req_office,
+        ))
+        ->execute();
+    $dates = array(
+        $form_state['values']['date1_date'],
+        $form_state['values']['date1_start'],
+        $form_state['values']['date1_end'],
+        $form_state['values']['date2_date'],
+        $form_state['values']['date2_start'],
+        $form_state['values']['date2_end'],
+        $form_state['values']['date3_date'],
+        $form_state['values']['date3_start'],
+        $form_state['values']['date3_end'],
+    );
+    foreach($dates as $date){
+        insert_date($reqid, $date);
+    }
+    $machine_value = array();
+    $machine_types = array(
+        0 => array('machine_wlaptop', 'Windows Laptop'),
+        1 => array('machine_wdesktop', 'Windows Desktop'),
+        2 => array('machine_alaptop', 'Apple Laptop'),
+        3 => array('machine_adesktop', 'Apple Desktop'),
+        4 => array('machine_tablet', 'Tablet'),
+        5 => array('machine_printer', 'Printer'),
+    );
+    $mCount = 0;
+    $hardware_types = array(
+        10 => array('hardware_drive', 'Hard Drive'),
+        11 => array('hardware_video', 'Video Display'),
+        12 => array('hardware_peripherals', 'Peripherals'),
+    );
+    $internet_types = array(
+        20 => array('internet_connection', 'Connecctivity issues'),
+    );
+    $migration_types = array(
+        30 => array('migration_account', 'Account Migration'),
+        31 => array('migration_data', 'Data Migration'),
+        32 => array('migration_office', 'Office/Locarion Migration'),
+    );
+    $new_types = array(
+        90 => array('new_computer', 'Computer set-up'),
+        91 => array('new_image', 'Re-image'),
+        92 => array('new_upgrade', 'Upgrade'),
+    );
+    $printer_types = array(
+        50 => array('printer_connection', 'Printer Connectivity'),
+        51 => array('printer_jams', 'Printer Jam'),
+    );
+    $recovery_types = array(
+        80 => array('recovery_password', 'Password Recovery'),
+        81 => array('recovery_data', 'Data Recovery'),
+        82 => array('recovery_bit', 'Bit Locker Recovery'),
+    );
+    $software_types = array(
+        60 => array('software_install', 'Install Software'),
+        61 => array('software_microsoft', 'Microsoft Office'),
+        62 => array('software_pinnacle', 'Pinnacle'),
+        63 => array('software_web', 'Web Browser'),
+    );
+    $qCount = 0;
+    $other_questions = array();
+    $other_types = array(
+        13 => 'other_hardware',
+        21 => 'other_internet',
+        40 => 'nas_other',
+        52 => 'other_printer',
+        64 => 'other_software',
+        70 => 'other_problem',
+        71 => 'extra_info',
+    );
+    $oCount = 0;
+    $answers = array();
+    $problem_value = array();
+    add_to_arrays(array_filter($form_state['values']['machine_types']), $machine_types, $machine_value, $reqid, $mCount);
+    if($is_other_machine != ""){
+        $machines[$mCount] = 6;
+        $machine_value[$mCount] = $is_other_machine;
+        insert_question_answer($reqid, $machines[$mCount], $machine_value[$mCount]);
+        $mCount++;
+    }
+    $overall = array(
+        array('hardware_types', $hardware_types,),
+        array('internet_types', $internet_types,),
+        array('migration_types', $migration_types,),
+        array('new_user_computer_types',  $new_types,),
+        array('printer_types', $printer_types,),
+        array('recovery_types', $recovery_types,),
+        array('software_types', $software_types,),
+    );
+    for($i = 0; $i < 7; $i++){
+        add_to_arrays(array_filter($form_state['values'][$overall[$i][0]]), $overall[$i][1], $problem_value, $reqid, $qCount);
+    }
+    foreach($other_types as $type){
+        if($form_state['values'][$type] != ""){
+            $answers[$oCount] = $form_state['values'][$type];
+            $problem_value[$qCount + $oCount] = $answers[$oCount];
+            insert_question_answer($reqid, array_search($type, $other_types), $answers[$oCount]);
+            $oCount++;
+        }
+    }
+    $from = $req_email;
+    $body[] = 'Thank you for submitting a request for On-Site Support. An ACCC member will follow up with you soon.<br/><br/>Here are the details of your request:<br/><br/>Requestors Information:'.
+        '<br/>Name: '.$req_name.
+        '<br/>Email: '.$req_email.
+        '<br/>Phone: '.$req_phone.
+        '<br/>Department: '.$department_name.
+        '<br/>Office Location: '.$req_office.
+        '<br/><br/>Business Manager:'.
+        '<br/>Name: '.$business_contact['name'].
+        '<br/>Email: '.$business_contact['email'].
+        '<br/>Phone: '.$business_contact['phone'].
+        '<br/>Office Location: '.$business_contact['office'].
+        '<br/><br/>REACH Contact:'.
+        '<br/>Name: '.$reach_contact['name'].
+        '<br/>Email: '.$reach_contact['email'].
+        '<br/>Phone: '.$reach_contact['phone'].
+        '<br/>Office Location: '.$reach_contact['office'].
+        '<br/><br/><br/>Request times:'.
+        '<br/>Option 1 Date: '.$dates[0].
+        '<br/>Option 1 Start Time: '.$dates[1].
+        '<br/>Option 1 End TIme: '.$dates[2].
+        '<br/>Option 2 Date: '.$dates[3].
+        '<br/>Option 2 Start Time: '.$dates[4].
+        '<br/>Option 2 End TIme: '.$dates[5].
+        '<br/>Option 3 Date: '.$dates[6].
+        '<br/>Option 3 Start Time: '.$dates[7].
+        '<br/>Option 3 End Time: '.$dates[8].
+        '<br/><br/><br/>Machine Type(s):';
+    foreach($machine_value as $machine){
+        $body[] .= '<br/>- '.$machine;
+    }
+    $body[] .= '<br/><br/>Problem(s)/Request(s)';
+    foreach($problem_value as $problem){
+        $body[] .= '<br/>- '.$problem;
+    }
+    $to = 'micros@uic.edu';
+    $params = array(
+        'body' => $body,
+        'subject' => 'On-Site Support Request for '.$req_name.' in '.$req_office,
+    );
+    if(drupal_mail('oss_non_client_oss_general_request_form', $form_state['values']['form_build_id'], $to, language_default(), $params, $from, TRUE)){
+        drupal_set_message('Thank you for your request. We will respond to your request within the next four hours.');
+    } else {
+        drupal_set_message('We had an error processing your request please try again in a few minutes');
+    }
+}
+function date_popup_input_date_hook($element, $input, $auto_complete = FALSE) {
+    if (empty($input) || !is_array($input) || !array_key_exists('date', $input) || empty($input['date'])) {
+        if(empty($input['time'])){
+            return NULL;
+        }
+    }
+    date_popup_add();
+    $granularity = date_format_order($element['#date_format']);
+    $has_time = date_has_time($granularity);
+    $flexible = !empty($element['#date_flexible']) ? $element['#date_flexible'] : 0;
+
+    $format = date_popup_date_format($element);
+    $format .= $has_time ? ' ' . date_popup_time_format($element) : '';
+    $datetime = !empty($input['date']) ? $input['date'] : '';
+    $datetime .= $has_time ? ' ' . $input['time'] : '';
+    $date = new DateObject($datetime, $element['#date_timezone'], $format);
+    if(empty($input['date']) && !empty($input['time'])){
+        $date->timeOnly = 'TRUE';
+    }
+    if (is_object($date)) {
+        $date->limitGranularity($granularity);
+        if ($date->validGranularity($granularity, $flexible)) {
+            date_increment_round($date, $element['#date_increment']);
+        }
+        return $date;
+    }
+    return NULL;
+}
+function date_popup_validate_hook($element, &$form_state) {
+    if (date_hidden_element($element)) {
+        return;
+    }
+
+    if (is_string($element['#value'])) {
+        return;
+    }
+
+    module_load_include('inc', 'date_api', 'date_api_elements');
+    date_popup_add();
+
+    $input_exists = NULL;
+    $input = drupal_array_get_nested_value($form_state['values'], $element['#parents'], $input_exists);
+    // If the date is a string, it is not considered valid and can cause problems
+    // later on, so just exit out now.
+    if (is_string($input)) {
+        return;
+    }
+
+    drupal_alter('date_popup_pre_validate', $element, $form_state, $input);
+
+    $granularity = date_format_order($element['#date_format']);
+    $date_granularity = date_popup_date_granularity($element);
+    $time_granularity = date_popup_time_granularity($element);
+    $has_time = date_has_time($granularity);
+
+    // @codingStandardsIgnoreStart
+    $label = '';
+    if (!empty($element['#date_title'])) {
+        $label = t($element['#date_title']);
+    }
+    elseif (!empty($element['#title'])) {
+        $label = t($element['#title']);
+    }
+    // @codingStandardsIgnoreEnd
+    $date = date_popup_input_date($element, $input);
+    // If the date has errors, display them.
+    // If something was input but there is no date, the date is invalid.
+    // If the field is empty and required, set error message and return.
+    $error_field = implode('][', $element['#parents']);
+    //if (empty($date) || !empty($date->errors)) {
+    if((empty($element['#value']['date']) && empty($element['#value']['time'])) || !empty($date->errors)){
+        if (is_object($date) && !empty($date->errors)) {
+            $message = t('The value input for field %field is invalid:', array('%field' => $label));
+            $message .= '<br />' . implode('<br />', $date->errors);
+            form_set_error($error_field, $message);
+            return;
+        }
+        if (!empty($input['date'])) {
+            $message = t('The value input for field %field is invalid.', array('%field' => $label));
+            form_set_error($error_field, $message);
+            return;
+        }
+        if ($element['#required']) {
+            $message = t('A valid date is required for %title.', array('%title' => $label));
+            form_set_error($error_field, $message);
+            return;
+        }
+    }
+    // If the created date is valid, set it.
+    $value = !empty($date) ? $date->format(DATE_FORMAT_DATETIME) : NULL;
+    form_set_value($element, $value, $form_state);
+}

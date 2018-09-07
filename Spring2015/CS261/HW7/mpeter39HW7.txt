@@ -1,0 +1,30 @@
+Name:Maxwell Petersen
+NetID: mpeter39
+
+Question 1.
+
+File: abs-asum-jmp.ys
+CPI: 1.995
+LP: 604
+MP: 204
+RP: 1
+
+File: file3.ys
+CPI:1.812
+LP:707
+MP:2
+RP:5
+
+
+File: figure 4.7
+CPI:2.143
+LP:1614
+MP:2
+RP:3
+
+Question 2.
+Problem 4.56 in book.
+
+A. E_icode in { IRMMOVL, IPOPL, IOPL, IPUSHL, IMRMOVL } && E_destM in { d_srcA, d_srcB } && M_destM != E_valA;
+
+B. Seen below...

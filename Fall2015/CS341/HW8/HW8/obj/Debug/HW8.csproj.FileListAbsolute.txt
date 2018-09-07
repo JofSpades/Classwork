@@ -1,0 +1,9 @@
+c:\users\mpeter39\documents\visual studio 2013\Projects\HW8\HW8\bin\Debug\HW8.exe.config
+c:\users\mpeter39\documents\visual studio 2013\Projects\HW8\HW8\bin\Debug\HW8.exe
+c:\users\mpeter39\documents\visual studio 2013\Projects\HW8\HW8\bin\Debug\HW8.pdb
+c:\users\mpeter39\documents\visual studio 2013\Projects\HW8\HW8\obj\Debug\HW8.csprojResolveAssemblyReference.cache
+c:\users\mpeter39\documents\visual studio 2013\Projects\HW8\HW8\obj\Debug\HW8.Form1.resources
+c:\users\mpeter39\documents\visual studio 2013\Projects\HW8\HW8\obj\Debug\HW8.Properties.Resources.resources
+c:\users\mpeter39\documents\visual studio 2013\Projects\HW8\HW8\obj\Debug\HW8.csproj.GenerateResource.Cache
+c:\users\mpeter39\documents\visual studio 2013\Projects\HW8\HW8\obj\Debug\HW8.exe
+c:\users\mpeter39\documents\visual studio 2013\Projects\HW8\HW8\obj\Debug\HW8.pdb

@@ -1,0 +1,56 @@
+                      | # Maxwell Petersen
+                      | # mpeter39
+                      | # Execution begins at address 0
+  0x000:              |               .pos 0
+  0x000: 30f400030000 | init:  irmovl Stack, %esp
+  0x006: 30f500030000 |               irmovl Stack, %ebp
+  0x00c: 802c000000   |               call Main
+  0x011: 00           |               halt
+                      | 
+                      | # Linked list of 3 elements
+  0x014:              |               .align 4
+                      | # Source block
+  0x014:              | src:
+  0x014: 0a000000     |               .long 0x00a
+  0x018: b0000000     |               .long 0x0b0
+  0x01c: 000c0000     |               .long 0xc00
+                      | 
+                      | # Destination block
+  0x020:              | dest:
+  0x020: 11010000     |               .long 0x111
+  0x024: 22020000     |               .long 0x222
+  0x028: 33030000     |               .long 0x333
+                      | 
+  0x02c:              | Main:
+  0x02c: a05f         |               pushl %ebp
+  0x02e: 2045         |               rrmovl %esp, %ebp
+  0x030: 30f220000000 |               irmovl dest, %edx
+  0x036: a02f         |               pushl %edx
+  0x038: 500508000000 |               mrmovl 8(%ebp), %eax
+  0x03e: 30f214000000 |               irmovl src, %edx
+  0x044: a02f         |               pushl %edx
+  0x046: 503508000000 |               mrmovl 8(%ebp), %ebx
+                      |               #call copy
+  0x04c: 2054         |               rrmovl %ebp, %esp
+  0x04e: b05f         |               popl %ebp
+  0x050: 90           |               ret
+                      | 
+  0x051:              | copy:
+  0x051: a05f         |               pushl %ebp
+  0x053: 2045         |               rrmovl %esp, %ebp
+  0x055: 501504000000 |               mrmovl 4(%ebp), %ecx
+                      |               #mrmovl (%ecx), %ecx
+  0x05b: 401510000000 |               rmmovl %ecx, 16(%ebp)
+  0x061: 501508000000 |               mrmovl 8(%ebp), %ecx
+                      |               #mrmovl (%ecx), %ecx
+  0x067: 401514000000 |               rmmovl %ecx, 20(%ebp)
+  0x06d: 50150c000000 |               mrmovl 12(%ebp), %ecx
+                      |               #mrmovl (%ecx), %ecx
+  0x073: 401518000000 |               rmmovl %ecx, 24(%ebp)
+  0x079: 2054         |               rrmovl %ebp, %esp
+  0x07b: b05f         |               popl %ebp
+  0x07d: 90           |               ret
+                      | 
+                      | # The stack goes here
+  0x300:              |        .pos 0x300
+  0x300:              | Stack: 

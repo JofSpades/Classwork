@@ -1,0 +1,739 @@
+<?php
+function oss_request_schema(){
+    $schema['oss_request'] = array(
+        'description' => t('Main table for all requests'),
+        'fields' => array(
+            'id' => array(
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => t('ID used to access spcific data faster'),),
+            'reqid' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => t('Spcific request ID'),),
+            'clientID' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'description' => t('If set links to all general info'),),
+            'name' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'description' => t('Requestors name'),),
+            'email' => array(
+                'type' => 'varchar',
+                'length' => 512,
+                'description' => t('Requestors email'),),
+            'phone' => array(
+                'type' => 'varchar',
+                'length' => 32,
+                'description' => t('Requestors phone number'),),
+            'dptid' => array(
+                'type' => 'int',
+                'description' => t('ID of the department'),),
+            'office' => array(
+                'type' => 'varchar',
+                'length' => 512,
+                'description' => t('Office location'),), 
+            'date' => array(
+                'type' => 'varchar',
+                'length' => 128,
+                'description' => t('Single date element'),),
+            'qid' => array(
+                'type' => 'int',
+                'not null' => FALSE,
+                'description' => t('ID representing the asked question and the answer if not other'),),
+            'answer' => array(
+                'type' => 'text',
+                'length' => 32768,
+                'description' => t('Place for and other answer for the prviously specified question'),),
+            'rtnumber' => array(
+                'type' => 'int',
+                'size' => 'big',
+                'description' => t('RT ticket number provided from the ACCC RT system'),),),
+        'primary key' => array('id'),
+    );
+    $schema['oss_questions'] = array(
+        'description' => t('Questions and their answers'),
+        'fields' => array(
+            'qid' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => t('The ID of the spcific question and answer'),),
+            'question' => array(
+                'type' => 'varchar',
+                'length' => 256,
+                'description' => t('Question asked'),),
+            'answer' => array(
+                'type' => 'varchar',
+                'length' => 256,
+                'description' => t('Answer for the question'),),
+        ),
+        'primary key' => array('qid'),
+    );
+    $schema['oss_reach'] = array(
+        'description' => t('REACH contact information'),
+        'fields' => array(
+            'reachid' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => t('ID of this reach Contact'),),
+            'dptid' => array(
+                'type' => 'int',
+                'description' => t('Reach contact department ID'),),
+            'name' => array(
+                'type' => 'varchar',
+                'length' => 256,
+                'description' => t('Reach contact\'s name'),),
+            'email' => array(
+                'type' => 'varchar',
+                'length' => 256,
+                'description' => t('The REACH contact\'s email'),),
+            'phone' => array(
+                'type' => 'varchar',
+                'length' => 32,
+                'description' => t('The REACH contact\'s phone number'),),
+            'office' => array(
+                'type' => 'varchar',
+                'length' => 512,
+                'description' => t('location of the REACH contact'),),
+        ),
+        'primary key' => array('reachid'),
+    );
+    $schema['oss_business'] = array(
+        'description' => t('Business manager contact information'),
+        'fields' => array(
+            'businessid' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => t('ID for the Business Manager'),),
+            'dptid' => array(
+                'type' => 'int',
+                'description' => t('The ID of the department that the Business Mnager is apart of'),),
+            'name' => array(
+                'type' => 'varchar',
+                'length' => 256,
+                'description' => t('Business Manager\'s name'),),
+            'email' => array(
+                'type' => 'varchar',
+                'length' => 256,
+                'description' => t('Business Manager\'s email'),),
+            'phone' => array(
+                'type' => 'varchar',
+                'length' => 32,
+                'description' => t('Business Manager\'s phone number'),),
+            'office' => array(
+                'type' => 'varchar',
+                'length' => 512,
+                'description' => t('Location of the Business Manager'),),
+        ),
+        'primary key' => array('businessid'),
+    );
+    $schema['oss_client_staff'] = array (
+        'description' => t('Staff information we have for our clients'),
+        'fields' => array(
+            'id' => array(
+                'type' => 'serial',
+                'description' => t('ID for the individual client'),
+                'not null' => TRUE,
+                'unsigned' => TRUE,),
+            'dptid' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not NULL' => TRUE,
+                'description' => t('ID of the staff members department'),),
+            'name' => array(
+                'type' => 'varchar',
+                'length' => 255,
+                'description' => t('Staff members name'),), 
+            'email' => array(
+                'type' => 'varchar',
+                'length' => 512,
+                'description' => t('Staff members email'),),
+            'phone' => array(
+                'type' => 'varchar',
+                'length' => 32,
+                'description' => t('Requestors phone number'),),
+            'office' => array(
+                'type' => 'varchar',
+                'length' => 512,
+                'description' => t('Office location'),),),
+        'primary key' => array('id'),
+    );
+    $schema['oss_department'] = array (
+        'description' => t('Department names'),
+        'fields' => array(
+            'dptid' => array(
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+                'description' => t('Department ID'),),
+            'title' => array(
+                'type' => 'varchar',
+                'length' => 1024,
+                'description' => t('Departments Name'),),
+            'client' => array(
+                'type' => 'int',
+                'size' => 'tiny',
+                'description' => t('1/0 is/isn\'t client'),),
+        ),
+        'primary key' => array('dptid'),
+    );
+    return $schema;
+}
+function oss_request_install(){
+    $query = db_insert('oss_request')
+        ->fields(array(
+            'reqid' => 0,
+            'qid' => -1,))
+        ->execute();
+    $questions = array(
+        array(
+            'qid' => 0,
+            'question' => 'Machine Type',
+            'answer' => 'Windows Laptop',),
+        array(
+            'qid' => 1,
+            'question' => 'Machine Type',
+            'answer' => 'Windows Desktop',),
+        array(
+            'qid' => 2,
+            'question' => 'Machine Type',
+            'answer' => 'Apple Laptop'),
+        array(
+            'qid' => 3,
+            'question' => 'Machine Type',
+            'answer' => 'Apple Desktop',),
+        array(
+            'qid' => 4,
+            'question' => 'Machine Type',
+            'answer' => 'Tablet',),
+        array(
+            'qid' => 5,
+            'question' => 'Machine Type',
+            'answer' => 'Printer',),
+        array(
+            'qid' => 6,
+            'question' => 'Machine Type',
+            'answer' => 'Other',),
+        array(
+            'qid' => 10,
+            'question' => 'Problem Type',
+            'answer' => 'Hard drive problem'),
+        array(
+            'qid' => 11,
+            'question' => 'Problem Type',
+            'answer' => 'Video display problem',),
+        array(
+            'qid' => 12,
+            'question' => 'Problem type',
+            'answer' => 'Peripherals problem',),
+        array(
+            'qid' => 13,
+            'question' => 'Problem type',
+            'answer' => 'Other hardware problem',),
+        array(
+            'qid' => 20,
+            'question' => 'Problem type',
+            'answer' => 'Internet connection',),
+        array(
+            'qid' => 21,
+            'question' => 'Problem type',
+            'answer' => 'Other Internet problem',),
+        array(
+            'qid' => 30,
+            'question' => 'Problem type',
+            'answer' => 'Migration of account',),
+        array(
+            'qid' => 31,
+            'question' => 'Problem type',
+            'answer' => 'Migration of data',),
+        array(
+            'qid' => 32,
+            'question' => 'Problem type',
+            'answer' => 'Migration of Office/Location',),
+        array(
+            'qid' => 40,
+            'question' => 'Problem type',
+            'answer' => 'NAS problem',),
+        array(
+            'qid' => 50,
+            'question' => 'Problem type',
+            'answer' => 'Printer connection',),
+        array(
+            'qid' => 51,
+            'question' => 'Problem type',
+            'answer' => 'Printer jam',),
+        array(
+            'qid' => 52,
+            'question' => 'Problem type',
+            'answer' => 'Other printer problem',),
+        array(
+            'qid' => 60,
+            'question' => 'Problem type',
+            'answer' => 'Install request',),
+        array(
+            'qid' => 61,
+            'question' => 'Problem type',
+            'answer' => 'Microsoft office problems'),
+        array(
+            'qid' => 62,
+            'question' => 'Problem type',
+            'answer' => 'Pinnacle or Banner problem',),
+        array(
+            'qid' => 63,
+            'question' => 'Problem type',
+            'answer' => 'Web browser problem',),
+        array(
+            'qid' => 64,
+            'question' => 'Problem type',
+            'answer' => 'Other software problem',),
+        array(
+            'qid' => 70,
+            'question' => 'Problem type',
+            'answer' => 'Other problem',),
+        array(
+            'qid' => 71,
+            'question' => 'Problem type',
+            'answer' => 'Extra explination',),
+        array(
+            'qid' => 80,
+            'question' => 'Problem type',
+            'answer' => 'Password Recovery',),
+        array(
+            'qid' => 81,
+            'question' => 'Problem type',
+            'answer' => 'Data Recovery',),
+        array(
+            'qid' => 82,
+            'question' => 'Problem type',
+            'answer' => 'Bit Locker Recovery',),
+        array(
+            'qid' => 90,
+            'question' => 'Problem type',
+            'answer' => 'Computer set-up',),
+        array(
+            'qid' => 91,
+            'question' => 'Problem type',
+            'answer' => 'Re-image',),
+        array(
+            'qid' => 92,
+            'question' => 'Problem type',
+            'answer' => 'Upgrade',),
+    );
+    $query = db_insert('oss_questions')->fields(array('qid', 'question', 'answer'));
+    foreach($questions as $insert){
+        $query->values($insert);
+    }
+    $query->execute();
+    $clientStaff = array(
+        array(
+        'dptid' => 99999999,
+        'name' => 'Tony Wong',
+        'email' => 'wong14@uic.edu',
+        'phone' => '0',
+        'office' => '2070 SEL',),  
+        array(
+        'dptid' => 99999999,
+        'name' => 'Maxwell Petersen',
+        'email' => 'mpeter39@uic.edu',
+        'phone' => '0',
+        'office' => '2070 SEL',),
+        array(
+        'dptid' => 0,
+        'name' => 'Allison Phillips',
+        'email' => 'adphill@uic.edu',
+        'phone' => '3-3636',
+        'office' => '2509 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Angela Larson',
+        'email' => 'angelal@uic.edu',
+        'phone' => '3-8424',
+        'office' => '521 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Anita Ridge',
+        'email' => 'asridge@uic.edu',
+        'phone' => '3-8746',
+        'office' => '2500 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Brady Crook',
+        'email' => 'bcrook@uic.edu',
+        'phone' => '5-0708',
+        'office' => '2530 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Darcy Evon',
+        'email' => 'dlevon@uic.edu',
+        'phone' => '5-0471',
+        'office' => '2506 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'DeNel Stoltz',
+        'email' => 'stoltzd@uic.edu',
+        'phone' => '3-1295',
+        'office' => '2518 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Dmitri Sandbeck',
+        'email' => 'sandbeck@uic.edu',
+        'phone' => '3-2766',
+        'office' => '2511 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Elizabeth Middleton',
+        'email' => 'emiddle3@uic.edu',
+        'phone' => '3-3717',
+        'office' => '537 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Ericka Carrol-Mason',
+        'email' => 'ecmason@uic.edu',
+        'phone' => '5-2441',
+        'office' => '2519 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Jeff Nearhoog',
+        'email' => 'jeff5@uic.edu',
+        'phone' => '3-3391',
+        'office' => '2503 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Jessica Olive',
+        'email' => 'jolive@uic.edu',
+        'phone' => '3-8517',
+        'office' => '529 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Jessica Young',
+        'email' => 'jyoung43@uic.edu',
+        'phone' => '6-4661',
+        'office' => '2524 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Jill Sexton',
+        'email' => 'jsexton@uic.edu',
+        'phone' => '3-9468',
+        'office' => '2533 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Joanne Joslyn',
+        'email' => 'jjoslyn@uic.edu',
+        'phone' => '3-7632',
+        'office' => '2502 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Judee Olechno',
+        'email' => 'judee@uic.edu',
+        'phone' => '3-4465',
+        'office' => '532 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Kelli Austin',
+        'email' => 'austink@uic.edu',
+        'phone' => '0',
+        'office' => '547 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Kelly Soltys',
+        'email' => 'ksoltys@uic.edu',
+        'phone' => '3-1411',
+        'office' => '2521 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Kristin Unger',
+        'email' => 'kunger2@uic.edu ',
+        'phone' => '3-8272',
+        'office' => '520 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Lynn Bennett',
+        'email' => 'lbennet3@uic.edu',
+        'phone' => '3-3394',
+        'office' => '2525 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Malathi Tamilarasu',
+        'email' => 'mtamil1@uic.edu',
+        'phone' => '6-4917',
+        'office' => '544 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Mark Valentino',
+        'email' => 'mjv@uic.edu',
+        'phone' => '3-1193',
+        'office' => '2526 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Melissa Oskielunas',
+        'email' => 'mosk1@uic.edu',
+        'phone' => '5-3134',
+        'office' => '527 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Melissa Wilhelm',
+        'email' => 'wilhelmm@uic.edu ',
+        'phone' => '5-5890',
+        'office' => '531 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Meredith Howell',
+        'email' => 'mrhowell@uic.edu',
+        'phone' => '3-8876',
+        'office' => '546 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Nicholas Rudolph',
+        'email' => 'nrudolph@uic.edu',
+        'phone' => '3-7335',
+        'office' => '2527 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Patcharee Wongchinsri',
+        'email' => 'patchare@uic.edu',
+        'phone' => '3-3390',
+        'office' => '2507 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Ramona Maza',
+        'email' => 'rmaza@uic.edu',
+        'phone' => '3-8537',
+        'office' => '518 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Raynard Crosland',
+        'email' => 'crosland@uic.edu',
+        'phone' => '3-1927',
+        'office' => '518 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Shannon Hynes',
+        'email' => 'sstillwa@uic.edu',
+        'phone' => '3-3902',
+        'office' => '533 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Teresa Recchia',
+        'email' => 'teresa@uic.edu',
+        'phone' => '3-2992',
+        'office' => '2528 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Thomas Golz',
+        'email' => 'tgolz@uic.edu',
+        'phone' => '3-8891',
+        'office' => '2510 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Tina Brown',
+        'email' => 'tbrown@uic.edu',
+        'phone' => '3-8894',
+        'office' => '538 SCE',),
+        array(
+        'dptid' => 0,
+        'name' => 'Tracy Weems',
+        'email' => 'tweems@uic.edu',
+        'phone' => '3-4329',
+        'office' => '2528 UH',),
+        array(
+        'dptid' => 0,
+        'name' => 'Wendy Crupper',
+        'email' => 'wcrupper@uic.edu',
+        'phone' => '3-8892',
+        'office' => '523 SCE',),
+        array(
+        'dptid' => 5,
+        'name' => 'Yesenia Gutierrez',
+        'email' => 'jgutierr@uic.edu',
+        'phone' => '6-8670',
+        'office' => '717 MAB',),
+        array(
+        'dptid' => 5,
+        'name' => 'Chorlatte Mack',
+        'email' => 'cmack3@uic.edu',
+        'phone' => '6-8670',
+        'office' => '717 MAB',),
+        array(
+        'dptid' => 5,
+        'name' => 'Caryn Bills-Windt',
+        'email' => 'cabw@uic.edu',
+        'phone' => '3-8145',
+        'office' => '719 MAB',),
+        array(
+        'dptid' => 5,
+        'name' => 'Keana Galloway',
+        'email' => 'keana@uic.edu',
+        'phone' => '3-3475',
+        'office' => '720 MAB',),
+        array(
+        'dptid' => 5,
+        'name' => 'Kathy Irving',
+        'email' => 'kathyi@uic.edu',
+        'phone' => '6-5979',
+        'office' => '722 MAB',),
+        array(
+        'dptid' => 5,
+        'name' => 'Stephen Holz',
+        'email' => 'sholz@uic.edu',
+        'phone' => '6-0512',
+        'office' => '712 MAB',),
+        array(
+        'dptid' => 5,
+        'name' => 'Amy Trulove',
+        'email' => 'aatrue59@uic.edu',
+        'phone' => '3-8388',
+        'office' => '720 MAB',),
+        array(
+        'dptid' => 5,
+        'name' => 'Danielle Earls',
+        'email' => 'dearls@uic.edu',
+        'phone' => '6-6424',
+        'office' => '717 MAB',),
+    );
+    $query = db_insert('oss_client_staff')
+        ->fields(array('dptid', 'name', 'email', 'phone', 'office'));
+    foreach($clientStaff as $insert){
+        $query->values($insert);
+    }
+    $query->execute();
+    $departments = array(
+        array(
+            'dptid' => 0,
+            'title' => 'OVCA',
+            'client' => 1,),
+        array(
+            'dptid' => 1,
+            'title' => 'AACC',
+            'client' => 1,),
+        array(
+            'dptid' => 2,
+            'title' => 'WLRC/CAN',
+            'client' => 0,),
+        array(
+            'dptid' => 3,
+            'title' => 'DBMGC',
+            'client' => 0,),
+        array(
+            'dptid' => 4,
+            'title' => 'LCC',
+            'client' => 0,),
+        array(
+            'dptid' => 5,
+            'title' => 'OAE',
+            'client' => 1,),
+    );
+    $query = db_insert('oss_department')->fields(array('dptid', 'title', 'client',));
+    foreach($departments as $insert){
+        $query->values($insert);
+    }
+    $query->execute();
+    $reach = array(
+        array(
+            'reachid' => 0,
+            'dptid' => 0,
+            'name' => 'Patcharee Wongchinsri',
+            'email' => 'patchare@uic.edu',
+            'phone' => '3-3390',
+            'office' => '2501 UH MC 002',),
+        array(
+            'reachid' => 1,
+            'dptid' => 1,
+            'name' => 'Lori Danielle Barcliff Baptista',
+            'email' => 'baptista@uic.edu',
+            'phone' => '3-2705',
+            'office' => '209 AC MC 020',),
+        array(
+            'reachid' => 2,
+            'dptid' => 2,
+            'name' => 'Athanasia Papaioannou',
+            'email' => 'athana@uic.edu',
+            'phone' => '3-8393',
+            'office' => '286 RRB MC 363',),
+        array(
+            'reachid' => 3,
+            'dptid' => 3,
+            'name' => 'Abdul Khan',
+            'email' => 'abkhan@uic.edu',
+            'phone' => '5-0847',
+            'office' => '2011 MBRB, MC 669',),
+        array(
+            'reachid' => 4,
+            'dptid' => 4,
+            'name' => 'Mario Alberto Lucero',
+            'email' => 'mlucer3@uic.edu',
+            'phone' => '5-2503',
+            'office' => 'B2 LCB MC 218',),
+        array(
+            'reachid' => 5,
+            'dptid' => 5,
+            'name' => 'Keana Marie Galloway',
+            'email' => 'keana@uic.edu',
+            'phone' => '3-3475',
+            'office' => '717 MAB MC 602',),
+    );
+    $query = db_insert('oss_reach')->fields(array('reachid', 'dptid', 'name', 'email', 'phone', 'office',));
+    foreach($reach as $insert){
+        $query->values($insert);
+    }
+    $query->execute();
+    $business = array(
+        array(
+            'businessid' => 0,
+            'dptid' => 0,
+            'name' => 'Patcharee Wongchinsri',
+            'email' => 'patchare@uic.edu',
+            'phone' => '3-3390',
+            'office' => '2507 UH MC 002',),
+        array(
+            'businessid' => 1,
+            'dptid' => 1,
+            'name' => 'Lori Danielle Barcliff Baptista',
+            'email' => 'baptista@uic.edu',
+            'phone' => '3-2705',
+            'office' => '209 AC MC 020',),
+         array(
+            'businessid' => 2,
+            'dptid' => 2,
+            'name' => 'Athanasia Papaioannou',
+            'email' => 'athana@uic.edu',
+            'phone' => '3-8393',
+            'office' => '286 RRB MC 363',),
+         array(
+            'businessid' => 3,
+            'dptid' => 3,
+            'name' => 'Abdul Khan',
+            'email' => 'abkhan@uic.edu',
+            'phone' => '5-0847',
+            'office' => '2011 MBRB, MC 669',),
+        array(
+            'businessid' => 4,
+            'dptid' => 4,
+            'name' => 'Mario Alberto Lucero',
+            'email' => 'mlucer3@uic.edu',
+            'phone' => '5-2503',
+            'office' => 'B2 LCB MC 218',),
+        array(
+            'businessid' => 5,
+            'dptid' => 5,
+            'name' => 'Keana Marie Galloway',
+            'email' => 'keana@uic.edu',
+            'phone' => '3-3475',
+            'office' => '717 MAB MC 602',),
+    );
+    $query = db_insert('oss_business')->fields(array('businessid', 'dptid', 'name', 'email', 'phone', 'office',));
+    foreach($business as $insert){
+        $query->values($insert);
+    }
+    $query->execute();
+}
+function oss_non_client_uninstall(){
+    
+}
+
+?>

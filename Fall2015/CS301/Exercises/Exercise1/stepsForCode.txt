@@ -1,0 +1,11 @@
+I have a personal cloud, OwnCloud on a basic XServer setup, in which I store my past code and unfinished iOS project. Follow the steps as listed to access them. If you don't wish to do this then I can send you a .zip file of all the files.
+
+Swift/iOS code:
+1. Go to the provided link to access the folder with password <iOS_Pr0ject> excluding the arrow heads.
+	https://cloud.jackofspades.duckdns.org/index.php/s/I6def97OWkj5FCS
+2. All I have is a self signed certificate on the erver so you will be prompted about how the certificate dosn't meet your browsers standards.
+
+Past work:
+1. Go to the provided link to access the folder with password <P4stW0rk> excluding the arrow heads.
+	https://cloud.jackofspades.duckdns.org/index.php/s/4vGkArBmGaBrSfB
+2. Same note as above about the lacking a "Properly signed certificate"

@@ -1,0 +1,307 @@
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+100241932  	 100240680  	 1252       	 0.0  	 	 1002644680
+
+[mpeterse@bert cache]$ 
+
+Summary of cache properties:
+----------------------------
+
+Cache size 4096 bytes 	 Block size 1 words 	 Associativity 1
+Number of sets 1024 	 Number of blocks 1024
+Hit time 10 	 	 Miss penalty 110
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 755134     	 75310      	 9.1  	 	 16588540  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 8192 bytes 	 Block size 1 words 	 Associativity 1
+Number of sets 2048 	 Number of blocks 2048
+Hit time 10 	 	 Miss penalty 110
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 770522     	 59922      	 7.2  	 	 14895860  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 16384 bytes 	 Block size 1 words 	 Associativity 1
+Number of sets 4096 	 Number of blocks 4096
+Hit time 10 	 	 Miss penalty 110
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 792980     	 37464      	 4.5  	 	 12425480  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 32768 bytes 	 Block size 1 words 	 Associativity 1
+Number of sets 8192 	 Number of blocks 8192
+Hit time 10 	 	 Miss penalty 110
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 814492     	 15952      	 1.9  	 	 10059160  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 65536 bytes 	 Block size 1 words 	 Associativity 1
+Number of sets 16384 	 Number of blocks 16384
+Hit time 10 	 	 Miss penalty 110
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 820443     	 10001      	 1.2  	 	 9404550   
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 4096 bytes 	 Block size 2 words 	 Associativity 1
+Number of sets 512 	 Number of blocks 512
+Hit time 10 	 	 Miss penalty 120
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 782541     	 47903      	 5.8  	 	 14052800  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 8192 bytes 	 Block size 2 words 	 Associativity 1
+Number of sets 1024 	 Number of blocks 1024
+Hit time 10 	 	 Miss penalty 120
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 791864     	 38580      	 4.6  	 	 12934040  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 16384 bytes 	 Block size 2 words 	 Associativity 1
+Number of sets 2048 	 Number of blocks 2048
+Hit time 10 	 	 Miss penalty 120
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 805498     	 24946      	 3.0  	 	 11297960  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 32768 bytes 	 Block size 2 words 	 Associativity 1
+Number of sets 4096 	 Number of blocks 4096
+Hit time 10 	 	 Miss penalty 120
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 820485     	 9959       	 1.2  	 	 9499520   
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 65536 bytes 	 Block size 2 words 	 Associativity 1
+Number of sets 8192 	 Number of blocks 8192
+Hit time 10 	 	 Miss penalty 120
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 825443     	 5001       	 0.6  	 	 8904560   
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 4096 bytes 	 Block size 4 words 	 Associativity 1
+Number of sets 256 	 Number of blocks 256
+Hit time 10 	 	 Miss penalty 140
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 795051     	 35393      	 4.3  	 	 13259460  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 8192 bytes 	 Block size 4 words 	 Associativity 1
+Number of sets 512 	 Number of blocks 512
+Hit time 10 	 	 Miss penalty 140
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 801885     	 28559      	 3.4  	 	 12302700  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 16384 bytes 	 Block size 4 words 	 Associativity 1
+Number of sets 1024 	 Number of blocks 1024
+Hit time 10 	 	 Miss penalty 140
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 811487     	 18957      	 2.3  	 	 10958420  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 32768 bytes 	 Block size 4 words 	 Associativity 1
+Number of sets 2048 	 Number of blocks 2048
+Hit time 10 	 	 Miss penalty 140
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 823361     	 7083       	 0.9  	 	 9296060   
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 65536 bytes 	 Block size 4 words 	 Associativity 1
+Number of sets 4096 	 Number of blocks 4096
+Hit time 10 	 	 Miss penalty 140
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 827943     	 2501       	 0.3  	 	 8654580   
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 4096 bytes 	 Block size 8 words 	 Associativity 1
+Number of sets 128 	 Number of blocks 128
+Hit time 10 	 	 Miss penalty 180
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 798606     	 31838      	 3.8  	 	 14035280  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 8192 bytes 	 Block size 8 words 	 Associativity 1
+Number of sets 256 	 Number of blocks 256
+Hit time 10 	 	 Miss penalty 180
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 805503     	 24941      	 3.0  	 	 12793820  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 16384 bytes 	 Block size 8 words 	 Associativity 1
+Number of sets 512 	 Number of blocks 512
+Hit time 10 	 	 Miss penalty 180
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 814059     	 16385      	 2.0  	 	 11253740  
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 32768 bytes 	 Block size 8 words 	 Associativity 1
+Number of sets 1024 	 Number of blocks 1024
+Hit time 10 	 	 Miss penalty 180
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 824518     	 5926       	 0.7  	 	 9371120   
+
+
+Summary of cache properties:
+----------------------------
+
+Cache size 65536 bytes 	 Block size 8 words 	 Associativity 1
+Number of sets 2048 	 Number of blocks 2048
+Hit time 10 	 	 Miss penalty 180
+
+
+Cumulative access statistics:
+-----------------------------
+
+Accesses 	 Hits 	 	 Misses 	 Miss rate (%) 	 Total time
+830444     	 829193     	 1251       	 0.2  	 	 8529620   
+
+[mpeterse@bert cache]$ 
+

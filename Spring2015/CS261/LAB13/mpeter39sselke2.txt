@@ -1,0 +1,32 @@
+Stephen Selke // sselke2@uic.edu
+Maxwell Petersen // mpeter39@uic.edu
+
+CS 261 lab 13
+
+#1: what are the two most important aspects of caching?
+
+	Spatial memory - basically things near each other are more likely to 
+	be used at similar times. An array, a functions machine code, etc.
+
+	Temporal memory - things accessed in the past are likely to be
+	accessed again. If I called one function reacently I probably will
+	call it more so keep it in the cache.
+
+
+#2: Given the fact that the cache size is 1024 bytes and the block size is 8 words, 
+how many bits are in the tag, index, offset fields if the cache is fully associative 
+and the address is 32 bits? Answer the question for a direct mapped cache and a 4-way 
+set-associative cache with the same cache size of 1024 bytes and block size of 8 words.
+
+	The cache is 1024 bytes so that means there are 32 blocks of 32 bytes each. The tag
+	is 32 - 5 or 27 bits, because 2^5=32 which is required for the addressing in each block.
+
+	And in a 4-way set-associative cache it is subdivided into 4 or 2^2, then into which means
+	that each set holds 8 or 2^3 blocks of 8 or 2^3. The tag is 32 - 2 - 3 - 3 or 24. The index
+	is 5 bits and the offset field is 3 bits.
+
+#3: What is the miss rate using the histogram example and the cache organizations above 
+(i.e. direct, 4-way associative and fully-associative cache)?
+
+	4-way associativity: 18.5% miss rate
+	fully associative: 28.4% miss rate

@@ -1,0 +1,2 @@
+[SUCCESS] code compiled [1.0]: 1.0
+[FAILED] index.html created for http://www.google.com? [1.0]: 0

@@ -1,0 +1,88 @@
+1.
+
++-------------------------+--------------------------+
+| Format A                | Format B                 |
++-------------------------+--------------------------+
+| 1 01111 001 |    (-9)/8 | 1 0111 0010 |    (-9)/8  |
++-------------+-----------+-------------+------------+
+| 0 10110 011 |       176 | 0 1110 0110 |       176  |
++-------------+-----------+-------------+------------+
+| 1 00111 010 | (-5)/1024 | 1 0000 0100 |   (-5)/512 |
++-------------+-----------+-------------+------------+
+| 0 00000 111 |       7/8 | 0 0000 1110 |       7/8  |
++-------------+-----------+-------------+------------+
+| 1 11100 000 |     -4096 | 1 1110 1111 |      -248  |
++-------------+-----------+-------------+------------+
+| 0 10111 100 |        96 | 0 1101 1000 |        96  |
++-------------+-----------+-------------+------------+
+| 1 01100 010 |   (-5)/64 | 1 0100 0100 |   (-5)/64  |
++-------------+-----------+-------------+------------+
+| 0 10001 101 |      31/2 | 0 1001 1010 |      31/2  |
++-------------+-----------+-------------+------------+
+| 1 01010 101 | (-13)/256 | 1 0010 1010 | (-13)/256  |
++-------------+-----------+-------------+------------+
+
+2.
+
+//before Gets is called
+[smaller addresses]
++----------+ //getbuf() Frame
+|RA        | //to test()
+|          | //extra space
+|          | //extra space
+|0x00000000| //end allocation for buf
+|0x00000000|
+|0x00000000|
+|0x00000000|
+|0x00000000|
+|0x00000000|
+|0x00000000|
+|0x00000000| //start allocation for buf
+|%esp      | //start of getbuf() frame
++----------+ //test() frame
+|RA        | //to main()
+|          |
+|          |
+|0x00000000| //val
+|%esp      | //start of test() frame
++----------+ //main() frame
+|RA        | //return to the end of the program
+|          |
+|          |
+|          |
+|          |
+|%esp      | //start of stack
++----------+
+[larger addresses]
+
+//after Gets is called using the example string
+//"How is this for a sample input string?"
+[smaller addresses]
++----------+ //getbuf() frame
+|RA        | //to test()
+|0x00003f67| //partially overwritten space, the 0000 is a place holder for the data that was not overwritten
+|0x6e697274| //completely overwritten space
+|0x73207475| //end allocation for buf
+|0x706e6920|
+|0x656c706d|
+|0x61732061|
+|0x20726f66|
+|0x20736968|
+|0x74207369|
+|0x20776f48| //start allocation for buf
+|%esp      | //start of getbuf() frame
++----------+ //test() frame
+|RA        | //to main()
+|          |
+|          |
+|0x00000000| //val
+|%esp      | //start of test() frame
++----------+ //main() frame
+|RA        | //return to the end of the program
+|          |
+|          |
+|          |
+|          |
+|%esp      | //start of stack
++----------+
+[larger addresses]

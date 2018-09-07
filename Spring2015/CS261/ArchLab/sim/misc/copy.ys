@@ -1,0 +1,65 @@
+# Maxwell Petersen
+# mpeter39
+# Execution begins at address 0
+              .pos 0
+init:  irmovl Stack, %esp
+              irmovl Stack, %ebp
+              call Main
+              halt
+
+# Linked list of 3 elements
+              .align 4
+# Source block
+src:
+              .long 0x00a
+              .long 0x0b0
+              .long 0xc00
+
+# Destination block
+dest:
+              .long 0x111
+              .long 0x222
+              .long 0x333
+
+Main:
+              pushl %ebp
+              rrmovl %esp, %ebp
+              irmovl src, %edx
+              mrmovl 8(%edx), %edx
+              pushl %edx
+              irmovl src, %edx
+              mrmovl 4(%edx), %edx
+              pushl %edx
+              irmovl src, %edx
+              mrmovl (%edx), %edx
+              pushl %edx
+              irmovl dest, %edx
+              mrmovl 8(%edx), %edx
+              pushl %edx
+              irmovl dest, %edx
+              mrmovl 4(%edx), %edx
+              pushl %edx
+              irmovl dest, %edx
+              mrmovl (%edx), %edx
+              pushl %edx
+              call copy
+              rrmovl %ebp, %esp
+              popl %ebp
+              ret
+
+copy:
+              pushl %ebp
+              rrmovl %esp, %ebp
+              mrmovl 20(%ebp), %eax
+              rmmovl %eax, 8(%ebp)
+              mrmovl 24(%ebp), %eax
+              rmmovl %eax, 12(%ebp)
+              mrmovl 28(%ebp), %eax
+              rmmovl %eax, 16(%ebp)
+              rrmovl %ebp, %esp
+              popl %ebp
+              ret
+
+# The stack goes here
+       .pos 0x300
+Stack: 

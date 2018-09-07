@@ -1,0 +1,14 @@
+#
+a#a
+ba#a
+ab#a
+bab#a
+ba#ab
+aba#ab
+bbabb#ab
+
+#a
+bbbbb#a
+ab#ab
+ababab#abb
+##

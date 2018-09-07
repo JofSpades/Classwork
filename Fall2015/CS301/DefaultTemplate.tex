@@ -1,0 +1,76 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}          % gives custom-labeled enumerations
+\usepackage{graphics}
+\usepackage{mathabx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows,automata,positioning}
+% Draw states as black circles filled with gray.
+\tikzstyle{every state}=[fill=black!10]
+% Set the size of the double circle around accept states.
+\tikzstyle{accepting}=[double=black!10,double distance=2pt,outer sep=1pt+\pgflinewidth]
+% No text on start arrows.
+\tikzstyle{every initial by arrow}=[initial text=]
+% Set bend angle, set the label to appear next to the curve, and set
+% the arrow style.
+\tikzstyle{every edge}=[draw,bend angle=15,auto,>=stealth']
+
+\setlist[enumerate]{label=\textbf{\alph{*}.},listparindent=1em}
+
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\topskip}{0in}
+
+\newcommand{\Z}{\mathbb{Z}}     % Rich man's black board's font.
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+
+% taken from hs's mary.tex, and tracing back to knuth.
+\def\dash---{\kern.16667em---\penalty\exhyphenpenalty\hskip.16667em\relax}
+
+\newcommand{\st}{\;\;\text{s.t.}\;\;}
+\newcommand{\rev}{^{\scriptscriptstyle\mathcal{R}}}
+\newcommand*\comp{^{\mathcal C}}
+% Write alphabet symbols in typewriter font as per Sipser.
+\newcommand\s[1]{\ensuremath{\mathtt{#1}}}
+\newcommand*\langop{\textsc}
+
+\let\oldsetminus\setminus
+\renewcommand*\setminus{\mathbin\oldsetminus}
+
+% Set the exercises number and your name.
+\title{Problem Set \#1}
+\author{Maxwell Petersen}
+
+% No need to change these 4 lines.
+\makeatletter
+\newcommand\exercise[1]{\par\vspace{4ex}\normalfont\normalsize\noindent
+\textbf{\large Problem #1}\par\nobreak\@afterindentfalse\@afterheading}
+\makeatother
+
+
+\begin{document}
+\maketitle
+
+\exercise{1}
+
+\exercise{2}
+
+\exercise{3}
+
+\exercise{4}
+
+\exercise{5}
+
+\exercise{6}
+
+\exercise{7}
+
+\exercise{8}
+
+\exercise{9}
+
+\end{document}

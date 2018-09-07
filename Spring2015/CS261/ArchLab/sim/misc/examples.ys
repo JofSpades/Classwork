@@ -1,0 +1,9 @@
+# Execution begins at address o
+		.pos 0
+init:	irmovl Stack, %esp
+		irmovl Stack, %ebp
+		call MAin
+		halt
+
+# Linked list of 5 elements
+		.align 

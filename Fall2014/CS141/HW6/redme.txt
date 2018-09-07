@@ -1,0 +1,3 @@
+I am aware that my imsort doesn't work I was having difficulties makeimg the algorithm work to shrink/ only access the nessicary elements of the array.
+I have run out of time and if you have any comments on how it can be fixed please advise.
+Thank you for your time.

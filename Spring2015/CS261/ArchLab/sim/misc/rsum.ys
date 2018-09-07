@@ -1,0 +1,60 @@
+# Maxwell Petersen
+# mpeter39
+# Execution begins at address 0
+		.pos 0
+init:	irmovl Stack, %esp
+		irmovl Stack, %ebp
+		call Main
+		halt
+
+# Linked list of 3 elements
+		.align 4
+ele1:	.long 0x00a
+		.long ele2
+ele2:	.long 0x0b0
+		.long ele3
+ele3:	.long 0xc00
+		.long 0
+
+Main:
+		pushl %ebp
+		rrmovl %esp, %ebp
+		irmovl ele1, %edx
+		pushl %edx
+		call rsum_list
+		rrmovl %ebp, %esp
+		popl %ebp
+		ret
+
+rsum_list:
+		pushl %ebp
+        rrmovl %esp, %ebp
+        irmovl $0, %esi         # set 0 for check of base case
+        mrmovl 8(%ebp), %ebx
+        xorl %esi, %ebx
+        jne NtZero
+        xorl %eax, %eax			# base case return value
+        jmp End              	# jump to end
+
+NtZero:
+		pushl %edx
+     	mrmovl (%ebx), %edx
+     	mrmovl 4(%ebx), %ebx
+     	pushl %ebx
+     	call rsum_list
+     	rrmovl %ebp, %ebx
+     	irmovl $4, %ecx
+     	subl %ecx, %ebx
+     	rrmovl %ebx, %esp
+     	addl %edx, %eax
+     	popl %edx
+
+End:
+    	rrmovl %ebp, %esp
+        popl %ebp               # restore stack frame
+        ret
+
+
+# The stack goes here
+	.pos 0x300
+Stack:	

@@ -1,0 +1,8 @@
+C:\Users\Anon\ownCloud\Classwork\Fall2015\CS341\HW4\HW4\HW4\bin\Debug\HW4.exe.config
+C:\Users\Anon\ownCloud\Classwork\Fall2015\CS341\HW4\HW4\HW4\bin\Debug\HW4.XML
+C:\Users\Anon\ownCloud\Classwork\Fall2015\CS341\HW4\HW4\HW4\bin\Debug\HW4.exe
+C:\Users\Anon\ownCloud\Classwork\Fall2015\CS341\HW4\HW4\HW4\bin\Debug\HW4.pdb
+C:\Users\Anon\ownCloud\Classwork\Fall2015\CS341\HW4\HW4\HW4\bin\Debug\FSharp.Core.dll
+C:\Users\Anon\ownCloud\Classwork\Fall2015\CS341\HW4\HW4\HW4\bin\Debug\FSharp.Core.xml
+C:\Users\Anon\ownCloud\Classwork\Fall2015\CS341\HW4\HW4\HW4\obj\Debug\HW4.exe
+C:\Users\Anon\ownCloud\Classwork\Fall2015\CS341\HW4\HW4\HW4\obj\Debug\HW4.pdb

@@ -1,0 +1,168 @@
+#!/bin/bash
+
+usage="Usage: hw1_score <homework directory> <output file> <score file>"
+
+if [ $# != 3 ]; then
+	echo $usage
+	exit 1
+fi
+
+homework_dir=$1
+output_file=$2
+score_file=$3
+
+score=0
+
+cd $homework_dir
+rm $outut$file $score_file
+
+
+make 1> /dev/null 2> /dev/null
+if [[ $? -ne 0 ]]; then
+  echo "Aborting program testing as code didn't compile..." >> $score_file
+  echo "Total score: 0" >> $score_file	
+  exit 1;
+fi;
+
+echo "[SUCCESS] code compiled [1.0]: 1.0" >> $score_file
+score=`echo $score | awk '{print $1+1}'`
+
+
+######################################## 
+rm index.html
+./hw1 http://www.google.com >> $output_file 2>&1
+if [ -f index.html ]; then
+	echo "[SUCCESS] index.html created for http://www.google.com? [1.0]: 1.0" >> $score_file
+	score=`echo $score | awk '{print $1+1}'`
+else 
+	echo "[FAILED] index.html created for http://www.google.com? [1.0]: 0" >> $score_file 
+fi
+rm index.html
+ 
+rm skype_logo.png
+./hw1 http://www.skypeassets.com/i/images/logos/skype_logo.png >> $output_file 2>&1
+if [ -f skype_logo.png ]; then
+	echo "[SUCCESS] skype_logo.png created for http://www.skypeassets.com/i/images/logos/skype_logo.png? [1.0]: 1.0" >> $score_file
+	score=`echo $score | awk '{print $1+1}'`
+else 
+	echo "[FAILED] skype_logo.png created for http://www.skypeassets.com/i/images/logos/skype_logo.png? [1.0]: 0" >> $score_file
+fi
+
+rm images_log_lg.gif
+./hw1 http://images.google.com/intl/en_ALL/images/logos/images_logo_lg.gif >> $output_file 2>&1
+if [ -f images_logo_lg.gif ]; then
+	echo "[SUCCESS] images_logo_lg.gif created for http://images.google.com/intl/en_ALL/images/logos/images_logo_lg.gif? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else 
+	echo "[FAILED] images_logo_lg.gif created for http://images.google.com/intl/en_ALL/images/logos/images_logo_lg.gif? [0.5]: 0" >> $score_file	
+fi
+
+rm biagioni-gis13.pdf 
+./hw1 http://biagioni.net/papers/biagioni-gis13.pdf >> $output_file 2>&1
+if [ -f biagioni-gis13.pdf ]; then
+	echo "[SUCCESS] biagioni-gis13.pdf created for http://biagioni.net/papers/biagioni-gis13.pdf? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else 
+	echo "[FAILED] biagioni-gis13.pdf created for http://biagioni.net/papers/biagioni-gis13.pdf? [0.5]: 0" >> $score_file
+fi	
+######################################## 
+
+./hw1 http://www.google.com/thispagedoesnotexist >> $output_file 2>&1
+if [ $? == 1 ]; then
+	echo "[SUCCESS] exit with error for http://www.google.com/thispagedoesnotexist? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else
+	echo "[FAILED] exit with error for http://www.google.com/thispagedoesnotexist? [0.5]: 0" >> $score_file
+fi
+
+./hw1 http://www.thissitedoesnotexist1000.com >> $output_file 2>&1
+if [ $? == 1 ]; then
+	echo "[SUCCESS] exit with error for http://www.thissitedoesnotexist1000.com? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else
+	echo "[FAILED] exit with error for http://www.thissitedoesnotexist1000.com? [0.5]: 0" >> $score_file
+fi
+
+./hw1 http://www.skype.com >> $output_file 2>&1
+if [ $? == 1 ]; then
+	echo "[SUCCESS] exit with error for http://www.skype.com? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else
+	echo "[FAILED] exit with error for http://www.skype.com? [0.5]: 0" >> $score_file
+fi
+
+#######################################
+
+s_png_orig=3070
+s_gif_orig=8561
+s_pdf_orig=232484
+
+s_png=`ls -l skype_logo.png | awk '{print $5}'`
+s_gif=`ls -l images_logo_lg.gif | awk '{print $5}'`
+s_pdf=`ls -l biagioni-gis13.pdf | awk '{print $5}'`
+
+if [ "$s_png_orig" == "$s_png" ]; then
+	echo "[SUCCESS] skype_logo.png size correct? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else
+	echo "[FAILED] skype_logo.png size correct? [0.5]: 0" >> $score_file
+fi
+
+if [ "$s_gif_orig" == "$s_gif" ]; then
+	echo "[SUCCESS] images_logo_lg.gif size correct? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else
+	echo "[FAILED] images_logo_lg.gif size correct? [0.5]: 0" >> $score_file
+fi
+
+if [ "$s_pdf_orig" == "$s_pdf" ]; then
+	echo "[SUCCESS] biagioni-gis13.pdf size correct? [1.0]: 1.0" >> $score_file
+	score=`echo $score | awk '{print $1+1}'`
+else
+	echo "[FAILED] biagioni-gis13.pdf size correct? [1.0]: 0" >> $score_file
+fi
+
+######################################
+
+md5_png_orig=7256c5d912da130063ebddbd46ee8e9c
+md5_gif_orig=6a5b12e3e227e4ca8afb2de89a416f2e
+md5_pdf_orig=c8d481edc6dd11ed59c4a7c3c2c05d06
+	
+md5_png=`md5sum skype_logo.png | awk '{print $1}'`
+md5_gif=`md5sum images_logo_lg.gif | awk '{print $1}'`
+md5_pdf=`md5sum biagioni-gis13.pdf | awk '{print $1}'`
+	
+if [ "$md5_png_orig" == "$md5_png" ]; then
+	echo "[SUCCESS] skype_logo.png content correct? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else
+	echo "[FAILED] skype_logo.png content correct? [0.5]: 0" >> $score_file
+fi
+
+if [ "$md5_gif_orig" == "$md5_gif" ]; then
+	echo "[SUCCESS] images_logo_lg.gif content correct? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else
+	echo "[FAILED] images_logo_lg.gif content correct? [0.5]: 0" >> $score_file
+fi
+
+if [ "$md5_pdf_orig" == "$md5_pdf" ]; then
+	echo "[SUCCESS] biagioni-gis13.pdf content correct? [1.0]: 1.0" >> $score_file
+	score=`echo $score | awk '{print $1+1}'`
+else
+	echo "[FAILED] biagioni-gis13.pdf content correct? [1.0]: 0" >> $score_file
+fi
+
+########################################
+rm Lenses-Product-Reviews-AdoramaTV
+./hw1 http://www.adorama.com/alc/0012691/article/Lenses-Product-Reviews-AdoramaTV >> $output_file 2>&1
+if [ -f Lenses-Product-Reviews-AdoramaTV ]; then
+	echo "[SUCCESS] Lenses-Product-Reviews-AdoramaTV created for http://www.adorama.com/alc/0012691/article/Lenses-Product-Reviews-AdoramaTV? [0.5]: 0.5" >> $score_file
+	score=`echo $score | awk '{print $1+0.5}'`
+else 
+	echo "[FAILED] Lenses-Product-Reviews-AdoramaTV created for http://www.adorama.com/alc/0012691/article/Lenses-Product-Reviews-AdoramaTV? [0.5]: 0" >> $score_file
+fi
+
+########################################
+echo "Total score: $score" >> $score_file
+

@@ -1,0 +1,97 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}          % gives custom-labeled enumerations
+\usepackage{graphics}
+\usepackage{mathabx}
+\usepackage{tikz}
+
+\usetikzlibrary{arrows,automata,positioning}
+% Draw states as black circles filled with gray.
+\tikzstyle{every state}=[fill=black!10]
+% Set the size of the double circle around accept states.
+\tikzstyle{accepting}=[double=black!10,double distance=2pt,outer sep=1pt+\pgflinewidth]
+% No text on start arrows.
+\tikzstyle{every initial by arrow}=[initial text=]
+% Set bend angle, set the label to appear next to the curve, and set
+% the arrow style.
+\tikzstyle{every edge}=[draw,bend angle=15,auto,>=stealth']
+
+\setlist[enumerate]{label=\textbf{\alph{*}.},listparindent=1em}
+
+\setlength{\topmargin}{0in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\topskip}{0in}
+
+\newcommand{\Z}{\mathbb{Z}}     % Rich man's black board's font.
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\R}{\mathbb{R}}
+
+% taken from hs's mary.tex, and tracing back to knuth.
+\def\dash---{\kern.16667em---\penalty\exhyphenpenalty\hskip.16667em\relax}
+
+\newcommand{\st}{\;\;\text{s.t.}\;\;}
+\newcommand{\rev}{^{\scriptscriptstyle\mathcal{R}}}
+\newcommand*\comp{^{\mathcal C}}
+% Write alphabet symbols in typewriter font as per Sipser.
+\newcommand\s[1]{\ensuremath{\mathtt{#1}}}
+\newcommand*\langop{\textsc}
+
+\let\oldsetminus\setminus
+\renewcommand*\setminus{\mathbin\oldsetminus}
+
+% Set the exercises number and your name.
+\title{Problem Set \#2}
+\author{Maxwell Petersen}
+
+% No need to change these 4 lines.
+\makeatletter
+\newcommand\exercise[1]{\par\vspace{4ex}\normalfont\normalsize\noindent
+\textbf{\large Problem #1}\par\nobreak\@afterindentfalse\@afterheading}
+\makeatother
+
+
+\begin{document}
+\maketitle
+
+\exercise{1}
+See JFLAP files.
+
+\exercise{2}
+Let there be some string $w$ that is accepted by a CFG $G$ in CNF. The creation of that string following the specific rules to make $G$ to be a CNF will allow there to be a reversal of the string simply by reversing all of the rules of the form $A \rightarrow aB$ and $A \rightarrow BC$, where $A,B,$ and $C$ are any variable and $a$ is a terminal in $\Sigma$, to be $A \rightarrow Ba$ and $A \rightarrow CB$. This reversal of the rules to generate the string keep $G$ in CNF so $G$ is still Context-Free. Meaning that reversal keeps CFG's closed.
+
+\exercise{3}
+Let there be some string $w$ that is accepted by a CFG $G$ in CNF. With $|w|$ = 1 then the amount of derivatives needed will be 1. This is possible with the start variable of $G$ having a terminal rule. For $|w| \geq 1$ the format of the rules have it that for every RHS has length at most 2 so for each step that is not a terminal you will have another step to derive until a terminal is reached. Which following that pattern will guarantee that to get to a terminal there will always be $2n -1$ steps between the start and terminal state.
+
+\exercise{4}
+By observation it can be seen that the $A$ and $B$ LHS variables produce even amount of terminal variables. Excluding the center terminal which will be either an $\textsf{a}$ or a $\textsf{b}$  meaning that there will be a guarantee that the two halves of the generated string will be the same length and that there will be at least one terminal different between the two halves.
+\cleardoublepage
+
+\exercise{5}
+Let $G = (V, \Sigma_1, R, S)$ be in FSF. Let there be an NFA $N = (Q, \Sigma_2, \delta, q_0, F)$ be defined as such:
+
+\begin{align*}
+Q &= V\\
+\Sigma_2 &= \Sigma_1 \\
+\delta &= \{ A \rightarrow tB\mid \exists R\} \\
+q_0 &= S\\
+F &= \{A \rightarrow \epsilon\mid \exists R\}
+\end{align*}
+
+
+\exercise{6}
+Let there be a regular language $A$ with \langop{Sort}($A$) being defined as, with $\Sigma = \{a, b\}$ \\
+\langop{Sort}($A$) = $\{a^nb^m \mid n$ is the number of $a$'s and $m$ is the number of $b$'s for any string $w \in A\}$\\
+Let there be a DFA $M = (Q, \Sigma, \delta, q_0, F)$ that recognizes $A$ and let there be a CFG of the following form that will generate \langop{Sort}($A$).\\
+$S \rightarrow AB$\\
+$A \rightarrow aA \mid \epsilon$\\
+$B \rightarrow bB \mid \epsilon$\\
+With $S$ being the start variable. with the proceeding CFG \langop{Sort}($A$), with $\Sigma = \{a, b\}$, is proven to be context-free.
+
+\exercise{7}
+By the definition of \langop{Sort} found in problem 6 above for a sorted language $\Sigma = \{a, b, c\}$ the new definition of \langop{Sort} is\\
+ \langop{Sort}($A$) = $\{a^nb^mc^o \mid n$ is the number of $a$'s, $m$ is the number of $b$'s, and $o$ is the number of $c$'s for any string $w \in A\}$\\
+ seeing how $A$ is regular and we have proven that letting $B =  \{a^nb^nc^n \mid n \geq 0\} B$ is not context free. By intersecting \langop{Sort}($A$) with $B$ we can see that letting $C$ = $A \cap B$ that $C$ is not a CFG thus \langop{Sort}($A$) is not a CFG as well.
+
+\end{document}

@@ -1,0 +1,14 @@
+name = OSS form
+description = "Webform for OSS requestors to fill out"
+package = OSS Sites
+core = 7.x
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = entity
+dependencies[] = smtp
+dependencies[] = views
+dependencies[] = workflow
+files[] = oss_request.module
+files[] = oss_request.install
+files[] = oss_client.inc
